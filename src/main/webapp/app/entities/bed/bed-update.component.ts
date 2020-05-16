@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FormBuilder, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -10,6 +9,7 @@ import { BedService } from './bed.service';
 import { IWard } from 'app/shared/model/ward.model';
 import { WardService } from 'app/entities/ward/ward.service';
 import { JhiAlertService } from 'ng-jhipster';
+import { dateNotBeforeTodayValidator } from './bed-date-validation';
 
 @Component({
   selector: 'jhi-bed-update',
@@ -38,7 +38,8 @@ export class BedUpdateComponent implements OnInit {
     bedName: [null, [Validators.required, Validators.maxLength(17), this.uniqueBedNameValidator()]],
     wardAllocationDate: [null, [Validators.required]],
     wardId: []
-  });
+  } , { validator: dateNotBeforeTodayValidator}
+  );
 
   constructor(
     protected bedService: BedService,
@@ -181,4 +182,5 @@ export class BedUpdateComponent implements OnInit {
       return null;
     };
   }
+
 }

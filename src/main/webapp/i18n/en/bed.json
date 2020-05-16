@@ -19,7 +19,8 @@
       "bedReferenceId": "Bed Reference Id",
       "bedName": "Bed Name",
       "wardAllocationDate": "Ward Allocation Date",
-      "ward": "Ward"
+      "ward": "Ward",
+      "dateMismatch": "Ward Allocation Date cannot be before today."
     }
   }
 }
