@@ -5,7 +5,8 @@
         "title": "Beds",
         "createLabel": "Create a new Bed",
         "createOrEditLabel": "Create or edit a Bed",
-        "notFound": "No Beds found"
+        "notFound": "No Beds found",
+        "viewLabel": "View Bed"
       },
       "created": "A new Bed is created with identifier {{ param }}",
       "updated": "A Bed is updated with identifier {{ param }}",
@@ -16,11 +17,12 @@
       "detail": {
         "title": "Bed"
       },
-      "bedReferenceId": "Bed Reference Id",
+      "bedReferenceId": "Bed Reference ID",
       "bedName": "Bed Name",
       "wardAllocationDate": "Ward Allocation Date",
       "ward": "Ward",
-      "dateMismatch": "Ward Allocation Date cannot be before today."
+      "dateMismatch": "Ward Allocation Date cannot be before today.",
+      "wardClassType": "Ward Class Type"
     }
   }
 }

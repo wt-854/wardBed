@@ -11,6 +11,7 @@ import { WardService } from 'app/entities/ward/ward.service';
 import { JhiAlertService } from 'ng-jhipster';
 import { dateNotBeforeTodayValidator } from './bed-date-validation';
 
+
 @Component({
   selector: 'jhi-bed-update',
   templateUrl: './bed-update.component.html'

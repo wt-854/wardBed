@@ -1,14 +1,14 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="bed">
-            <h2><span jhiTranslate="wardBedApp.bed.detail.title">Bed</span> {{ bed.id }}</h2>
+            <h2><span jhiTranslate="wardBedApp.bed.home.viewLabel">View Bed</span></h2>
 
             <hr>
 
             <jhi-alert-error></jhi-alert-error>
 
             <dl class="row-md jh-entity-details">
-                <dt><span jhiTranslate="wardBedApp.bed.bedReferenceId">Bed Reference Id</span></dt>
+                <dt><span jhiTranslate="wardBedApp.bed.bedReferenceId">Bed Reference ID</span></dt>
                 <dd>
                     <span>{{ bed.bedReferenceId }}</span>
                 </dd>
@@ -16,16 +16,21 @@
                 <dd>
                     <span>{{ bed.bedName }}</span>
                 </dd>
-                <dt><span jhiTranslate="wardBedApp.bed.wardAllocationDate">Ward Allocation Date</span></dt>
-                <dd>
-                    <span>{{ bed.wardAllocationDate }}</span>
-                </dd>
-                <dt><span jhiTranslate="wardBedApp.bed.ward">Ward</span></dt>
+                <dt><span *ngIf="bed.wardId" jhiTranslate="wardBedApp.bed.ward">Ward</span></dt>
                 <dd>
                     <div *ngIf="bed.wardId">
-                        <a [routerLink]="['/ward', bed.wardId, 'view']">{{ bed.wardId }}</a>
+                        <a [routerLink]="['/ward', bed.wardId, 'view']"><small>{{ bed.wardName }}</small></a>
                     </div>
                 </dd>
+                <dt><span *ngIf="bed.wardId"  jhiTranslate="wardBedApp.bed.wardClassType">Ward Class Type</span></dt>
+                <dd>
+                    <span *ngIf="bed.wardId">{{ bed.wardClassType }}</span>
+                </dd>
+                <dt><span jhiTranslate="wardBedApp.bed.wardAllocationDate">Ward Allocation Date</span></dt>
+                <dd>
+                    <span>{{ bed.wardAllocationDate | date:'dd-MM-yyyy' }}</span>
+                </dd>
+
             </dl>
 
             <button type="submit"

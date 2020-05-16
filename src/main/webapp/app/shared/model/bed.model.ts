@@ -6,6 +6,8 @@ export interface IBed {
   bedName?: string;
   wardAllocationDate?: Moment;
   wardId?: number;
+  wardName?: string;
+  wardClassType?: string;
 }
 
 export class Bed implements IBed {
@@ -14,6 +16,8 @@ export class Bed implements IBed {
     public bedReferenceId?: string,
     public bedName?: string,
     public wardAllocationDate?: Moment,
-    public wardId?: number
+    public wardId?: number,
+    public wardName?: string,
+    public wardClassType?: string
   ) {}
 }
