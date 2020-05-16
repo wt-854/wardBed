@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpResponse } from '@angular/common/http';
+import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 
@@ -9,6 +9,7 @@ import { IBed, Bed } from 'app/shared/model/bed.model';
 import { BedService } from './bed.service';
 import { IWard } from 'app/shared/model/ward.model';
 import { WardService } from 'app/entities/ward/ward.service';
+import { JhiAlertService } from 'ng-jhipster';
 
 @Component({
   selector: 'jhi-bed-update',
@@ -18,14 +19,28 @@ export class BedUpdateComponent implements OnInit {
   isSaving = false;
   wards: IWard[] = [];
   wardAllocationDateDp: any;
+  bedList: IBed[] = [];
 
   editForm = this.fb.group({
     id: [],
     bedReferenceId: [
       null,
-      [Validators.required, Validators.minLength(1), Validators.maxLength(6), Validators.pattern('^BED_(0[1-9]|10)$')]
+      [
+        Validators.required, 
+        Validators.minLength(1), 
+        Validators.maxLength(6), 
+        Validators.pattern('^BED_(0[1-9]|10)$'),
+        this.uniqueBedRefIdValidator()
+      ]
     ],
-    bedName: [null, [Validators.required, Validators.maxLength(17)]],
+    bedName: [
+      null, 
+      [
+        Validators.required, 
+        Validators.maxLength(17),
+        this.uniqueBedNameValidator()
+      ]
+    ],
     wardAllocationDate: [null, [Validators.required]],
     wardId: []
   });
@@ -34,7 +49,8 @@ export class BedUpdateComponent implements OnInit {
     protected bedService: BedService,
     protected wardService: WardService,
     protected activatedRoute: ActivatedRoute,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    protected jhiAlertService: JhiAlertService
   ) {}
 
   ngOnInit(): void {
@@ -43,6 +59,7 @@ export class BedUpdateComponent implements OnInit {
 
       this.wardService.query().subscribe((res: HttpResponse<IWard[]>) => (this.wards = res.body || []));
     });
+    this.loadBeds();
   }
 
   updateForm(bed: IBed): void {
@@ -99,4 +116,48 @@ export class BedUpdateComponent implements OnInit {
   trackById(index: number, item: IWard): any {
     return item.id;
   }
+
+  protected onError(errorMsg: string): void {
+    this.jhiAlertService.error(errorMsg);
+  }
+
+  protected getBeds(data: IBed[] | null): void {
+    if (data !== null) {
+      data.forEach(x => {
+        this.bedList.push(x);
+      });
+    } 
+  }
+
+  protected loadBeds(): void {
+    this.bedService.query({})
+      .subscribe((res: HttpResponse<IBed[]>) => this.getBeds(res.body), 
+      (res: HttpErrorResponse) => this.onError(res.message)
+      );
+  }
+
+  uniqueBedRefIdValidator(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: boolean } | null => {
+      const len = this.bedList.length;
+      for (let j = 0; j < len; j++) {
+        if (this.bedList[j].bedReferenceId === control.value) {
+          return { bedRefIdMismatch: true};
+        }
+      }
+      return null;
+    }
+  }
+
+  uniqueBedNameValidator(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: boolean } | null => {
+      const len = this.bedList.length;
+      for(let j = 0; j < len; j++) {
+        if (this.bedList[j].bedName === control.value) {
+          return { bedNameMismatch: true};
+        }
+      }
+      return null;
+    }
+  }
+
 }

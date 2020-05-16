@@ -16,6 +16,10 @@
                     <input type="text" class="form-control" name="bedReferenceId" id="field_bedReferenceId"
                            formControlName="bedReferenceId"/>
                     <div *ngIf="editForm.get('bedReferenceId')!.invalid && (editForm.get('bedReferenceId')!.dirty || editForm.get('bedReferenceId')!.touched)">
+                        <small class="form-text text-danger" *ngIf="editForm.get('bedReferenceId')?.errors?.bedRefIdMismatch" 
+                            jhiTranslate="entity.validation.uniquePattern" [translateValues]="{ pattern: 'Bed Reference ID' }">
+                        Bed Reference ID in use.
+                        </small>
                         <small class="form-text text-danger"
                                *ngIf="editForm.get('bedReferenceId')?.errors?.required" jhiTranslate="entity.validation.required">
                         This field is required.
@@ -40,6 +44,10 @@
                     <input type="text" class="form-control" name="bedName" id="field_bedName"
                            formControlName="bedName"/>
                     <div *ngIf="editForm.get('bedName')!.invalid && (editForm.get('bedName')!.dirty || editForm.get('bedName')!.touched)">
+                        <small class="form-text text-danger" *ngIf="editForm.get('bedName')?.errors?.bedNameMismatch" 
+                            jhiTranslate="entity.validation.uniquePattern" [translateValues]="{ pattern: 'Bed Name' }">
+                        Bed Name in use.
+                        </small>
                         <small class="form-text text-danger"
                                *ngIf="editForm.get('bedName')?.errors?.required" jhiTranslate="entity.validation.required">
                         This field is required.
