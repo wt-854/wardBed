@@ -3,11 +3,14 @@
     "ward": {
       "home": {
         "title": "Wards",
-        "createLabel": "Create a new Ward",
+        "createLabel": "Add Ward",
         "createOrEditLabel": "Create or edit a Ward",
-        "notFound": "No Wards found"
+        "notFound": "No Wards found",
+        "editLabel": "Edit Ward",
+        "viewLabel": "View Ward",
+        "deleteLabel": "Delete Ward"
       },
-      "created": "A new Ward is created with identifier {{ param }}",
+      "created": "Ward details added successfully",
       "updated": "A Ward is updated with identifier {{ param }}",
       "deleted": "A Ward is deleted with identifier {{ param }}",
       "delete": {
@@ -16,7 +19,7 @@
       "detail": {
         "title": "Ward"
       },
-      "wardReferenceId": "Ward Reference Id",
+      "wardReferenceId": "Ward Reference ID",
       "wardName": "Ward Name",
       "wardClassType": "Ward Class Type",
       "wardLocation": "Ward Location",

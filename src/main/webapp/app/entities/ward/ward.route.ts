@@ -57,7 +57,7 @@ export const wardRoute: Routes = [
     },
     data: {
       authorities: [Authority.USER],
-      pageTitle: 'wardBedApp.ward.home.title'
+      pageTitle: 'wardBedApp.ward.home.viewLabel'
     },
     canActivate: [UserRouteAccessService]
   },
@@ -69,7 +69,7 @@ export const wardRoute: Routes = [
     },
     data: {
       authorities: [Authority.USER],
-      pageTitle: 'wardBedApp.ward.home.title'
+      pageTitle: 'wardBedApp.ward.home.createLabel'
     },
     canActivate: [UserRouteAccessService]
   },
@@ -81,7 +81,7 @@ export const wardRoute: Routes = [
     },
     data: {
       authorities: [Authority.USER],
-      pageTitle: 'wardBedApp.ward.home.title'
+      pageTitle: 'wardBedApp.ward.home.editLabel'
     },
     canActivate: [UserRouteAccessService]
   }

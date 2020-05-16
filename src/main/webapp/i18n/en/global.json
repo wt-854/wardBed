@@ -100,7 +100,8 @@
       "edit": "Edit",
       "open": "Open",
       "save": "Save",
-      "view": "View"
+      "view": "View",
+      "add": "Add"
     },
     "detail": {
       "field": "Field",
@@ -122,7 +123,7 @@
       "datetimelocal": "This field should be a date and time.",
       "patternLogin": "This field can only contain letters, digits and e-mail addresses.",
       "wardPattern": "{{ pattern }} should be of format WARD_NN, where NN is between 01 to 10.",
-      "uniquePattern": "{{ pattern }} already exists."
+      "uniquePattern": "{{ pattern }} in use."
     }
   },
   "error": {
