@@ -79,7 +79,8 @@
                     <label class="form-control-label" jhiTranslate="wardBedApp.bed.ward" for="field_ward">Ward</label>
                     <select class="form-control" id="field_ward" name="ward" formControlName="wardId">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="wardOption.id" *ngFor="let wardOption of wards; trackBy: trackById">{{ wardOption.id }}</option>
+                        <option [ngValue]="wardOption.id" *ngFor="let wardOption of sortedWards; trackBy: trackRandom">{{ wardOption.wardName }}</option>
+                        <!-- <option [ngValue]="wardOption.id" *ngFor="let wardOption of wards; trackBy: trackById">{{ wardOption.wardName }}</option> -->
                     </select>
                 </div>
             </div>

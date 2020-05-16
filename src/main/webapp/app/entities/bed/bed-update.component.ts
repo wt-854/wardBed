@@ -17,30 +17,25 @@ import { JhiAlertService } from 'ng-jhipster';
 })
 export class BedUpdateComponent implements OnInit {
   isSaving = false;
-  wards: IWard[] = [];
+  wardszxc: IWard[] = [];
   wardAllocationDateDp: any;
   bedList: IBed[] = [];
+  sortedWards: IWard[] = [];
+  bedCopy: IBed[] = [];
 
   editForm = this.fb.group({
     id: [],
     bedReferenceId: [
       null,
       [
-        Validators.required, 
-        Validators.minLength(1), 
-        Validators.maxLength(6), 
+        Validators.required,
+        Validators.minLength(1),
+        Validators.maxLength(6),
         Validators.pattern('^BED_(0[1-9]|10)$'),
         this.uniqueBedRefIdValidator()
       ]
     ],
-    bedName: [
-      null, 
-      [
-        Validators.required, 
-        Validators.maxLength(17),
-        this.uniqueBedNameValidator()
-      ]
-    ],
+    bedName: [null, [Validators.required, Validators.maxLength(17), this.uniqueBedNameValidator()]],
     wardAllocationDate: [null, [Validators.required]],
     wardId: []
   });
@@ -56,10 +51,24 @@ export class BedUpdateComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ bed }) => {
       this.updateForm(bed);
-
-      this.wardService.query().subscribe((res: HttpResponse<IWard[]>) => (this.wards = res.body || []));
+      this.wardService.query().subscribe((res: HttpResponse<IWard[]>) => (this.wardszxc = res.body || []));
     });
+    this.loadSortedWards();
     this.loadBeds();
+  }
+
+  getSortedWards(data: IWard[]): void {
+    data.forEach(x => {
+      this.sortedWards.push(x);
+    });
+    this.sortedWards = this.sortedWards.sort((a: any, b: any) => a.wardName.localeCompare(b.wardName));
+  }
+
+  loadSortedWards(): void {
+    this.wardService.query({}).subscribe(
+      (res: HttpResponse<IWard[]>) => this.getSortedWards(res.body || []),
+      (res: HttpErrorResponse) => this.onError(res.message)
+    );
   }
 
   updateForm(bed: IBed): void {
@@ -114,26 +123,39 @@ export class BedUpdateComponent implements OnInit {
   }
 
   trackById(index: number, item: IWard): any {
+    // return item.wardName;
     return item.id;
+  }
+
+  trackRandom(index: number, item: IBed): any {
+    return item.bedName;
   }
 
   protected onError(errorMsg: string): void {
     this.jhiAlertService.error(errorMsg);
   }
 
-  protected getBeds(data: IBed[] | null): void {
-    if (data !== null) {
-      data.forEach(x => {
-        this.bedList.push(x);
-      });
-    } 
+  protected loadBeds(): void {
+    this.bedService.query().subscribe(
+      (res: HttpResponse<IBed[]>) => this.getBeds(res.body || []),
+      (res: HttpErrorResponse) => this.onError(res.message)
+    );
+
+    this.bedService.query().subscribe(
+      (res: HttpResponse<IBed[]>) => (this.bedList = res.body || []),
+      (res: HttpErrorResponse) => this.onError(res.message)
+    );
+    // this.bedService.query({})
+    //   .subscribe((res: HttpResponse<IBed[]>) => this.getBeds(res.body),
+    //     (res: HttpErrorResponse) => this.onError(res.message)
+    //   );
   }
 
-  protected loadBeds(): void {
-    this.bedService.query({})
-      .subscribe((res: HttpResponse<IBed[]>) => this.getBeds(res.body), 
-      (res: HttpErrorResponse) => this.onError(res.message)
-      );
+  protected getBeds(data: IBed[]): void {
+    this.bedCopy = [];
+    data.forEach(x => {
+      this.bedCopy.push(x);
+    });
   }
 
   uniqueBedRefIdValidator(): ValidatorFn {
@@ -141,23 +163,22 @@ export class BedUpdateComponent implements OnInit {
       const len = this.bedList.length;
       for (let j = 0; j < len; j++) {
         if (this.bedList[j].bedReferenceId === control.value) {
-          return { bedRefIdMismatch: true};
+          return { bedRefIdMismatch: true };
         }
       }
       return null;
-    }
+    };
   }
 
   uniqueBedNameValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: boolean } | null => {
       const len = this.bedList.length;
-      for(let j = 0; j < len; j++) {
+      for (let j = 0; j < len; j++) {
         if (this.bedList[j].bedName === control.value) {
-          return { bedNameMismatch: true};
+          return { bedNameMismatch: true };
         }
       }
       return null;
-    }
+    };
   }
-
 }
