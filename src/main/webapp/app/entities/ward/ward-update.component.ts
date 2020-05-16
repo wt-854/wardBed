@@ -28,7 +28,14 @@ export class WardUpdateComponent implements OnInit {
         this.uniqueWardRefIdValidator()
       ]
     ],
-    wardName: [null, [Validators.required, Validators.maxLength(10)]],
+    wardName: [
+      null, 
+      [
+        Validators.required, 
+        Validators.maxLength(10),
+        this.uniqueWardNameValidator()
+      ]
+    ],
     wardClassType: [null, [Validators.required]],
     wardLocation: [null, [Validators.required]]
   });
@@ -121,8 +128,20 @@ export class WardUpdateComponent implements OnInit {
     return (control: AbstractControl): { [key: string]: boolean } | null => {
       const len = this.wardList.length;
       for (let j = 0; j < len; j++) {
-        if(this.wardList[j].wardReferenceId === control.value) {
+        if (this.wardList[j].wardReferenceId === control.value) {
           return { wardRefIdMismatch: true};
+        }
+      }
+      return null;
+    }
+  }
+
+  uniqueWardNameValidator(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: boolean } | null => {
+      const len = this.wardList.length;
+      for(let j = 0; j < len; j++) {
+        if (this.wardList[j].wardName === control.value) {
+          return { wardNameMismatch: true};
         }
       }
       return null;

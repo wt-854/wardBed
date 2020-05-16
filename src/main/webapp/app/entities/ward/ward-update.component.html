@@ -40,6 +40,10 @@
                     <input type="text" class="form-control" name="wardName" id="field_wardName"
                            formControlName="wardName"/>
                     <div *ngIf="editForm.get('wardName')!.invalid && (editForm.get('wardName')!.dirty || editForm.get('wardName')!.touched)">
+                        <small class="form-text text-danger" *ngIf="editForm.get('wardReferenceId')?.errors?.wardRefIdMismatch" 
+                            jhiTranslate="entity.validation.uniquePattern" [translateValues]="{ pattern: 'Ward Name' }">
+                        Ward Name already exists.
+                        </small>
                         <small class="form-text text-danger"
                                *ngIf="editForm.get('wardName')?.errors?.required" jhiTranslate="entity.validation.required">
                         This field is required.
