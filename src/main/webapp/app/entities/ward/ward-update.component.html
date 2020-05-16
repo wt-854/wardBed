@@ -16,6 +16,10 @@
                     <input type="text" class="form-control" name="wardReferenceId" id="field_wardReferenceId"
                            formControlName="wardReferenceId"/>
                     <div *ngIf="editForm.get('wardReferenceId')!.invalid && (editForm.get('wardReferenceId')!.dirty || editForm.get('wardReferenceId')!.touched)">
+                        <small class="form-text text-danger" *ngIf="editForm.get('wardReferenceId')?.errors?.wardRefIdMismatch" 
+                            jhiTranslate="entity.validation.uniquePattern" [translateValues]="{ pattern: 'Ward Reference Id' }">
+                        Ward Reference Id already exists.
+                        </small>
                         <small class="form-text text-danger"
                                *ngIf="editForm.get('wardReferenceId')?.errors?.required" jhiTranslate="entity.validation.required">
                         This field is required.
@@ -25,8 +29,8 @@
                         This field cannot be longer than 7 characters.
                         </small>
                         <small class="form-text text-danger"
-                               *ngIf="editForm.get('wardReferenceId')?.errors?.pattern" jhiTranslate="entity.validation.pattern" [translateValues]="{ pattern: 'Ward Reference Id' }">
-                            This field should follow pattern for "Ward Reference Id".
+                               *ngIf="editForm.get('wardReferenceId')?.errors?.pattern" jhiTranslate="entity.validation.wardPattern" [translateValues]="{ pattern: 'Ward Reference Id' }">
+                        Ward Reference Id should be of format WARD_NN, where NN is between 01 to 10.
                         </small>
                     </div>
                 </div>
@@ -50,9 +54,9 @@
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="wardBedApp.ward.wardClassType" for="field_wardClassType">Ward Class Type</label>
                     <select class="form-control" name="wardClassType" formControlName="wardClassType" id="field_wardClassType">
-                        <option value="A">{{ 'wardBedApp.ClassType.A' | translate }}</option>
-                        <option value="B">{{ 'wardBedApp.ClassType.B' | translate }}</option>
-                        <option value="C">{{ 'wardBedApp.ClassType.C' | translate }}</option>
+                        <option value="{{ 'wardBedApp.ClassType.A' | translate }}">Class A</option>
+                        <option value="{{ 'wardBedApp.ClassType.B' | translate }}">Class B</option>
+                        <option value="{{ 'wardBedApp.ClassType.C' | translate }}">Class C</option>
                     </select>
                     <div *ngIf="editForm.get('wardClassType')!.invalid && (editForm.get('wardClassType')!.dirty || editForm.get('wardClassType')!.touched)">
                         <small class="form-text text-danger"
@@ -65,10 +69,10 @@
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="wardBedApp.ward.wardLocation" for="field_wardLocation">Ward Location</label>
                     <select class="form-control" name="wardLocation" formControlName="wardLocation" id="field_wardLocation">
-                        <option value="A1">{{ 'wardBedApp.Location.A1' | translate }}</option>
-                        <option value="A2">{{ 'wardBedApp.Location.A2' | translate }}</option>
-                        <option value="B1">{{ 'wardBedApp.Location.B1' | translate }}</option>
-                        <option value="B2">{{ 'wardBedApp.Location.B2' | translate }}</option>
+                        <option value="{{ 'wardBedApp.Location.A1' | translate }}">Block A Level 1</option>
+                        <option value="{{ 'wardBedApp.Location.A2' | translate }}">Block A Level 2</option>
+                        <option value="{{ 'wardBedApp.Location.B1' | translate }}">Block B Level 1</option>
+                        <option value="{{ 'wardBedApp.Location.B2' | translate }}">Block B Level 2</option>
                     </select>
                     <div *ngIf="editForm.get('wardLocation')!.invalid && (editForm.get('wardLocation')!.dirty || editForm.get('wardLocation')!.touched)">
                         <small class="form-text text-danger"

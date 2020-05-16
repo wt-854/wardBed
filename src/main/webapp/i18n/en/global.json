@@ -120,7 +120,9 @@
       "pattern": "This field should follow pattern for {{ pattern }}.",
       "number": "This field should be a number.",
       "datetimelocal": "This field should be a date and time.",
-      "patternLogin": "This field can only contain letters, digits and e-mail addresses."
+      "patternLogin": "This field can only contain letters, digits and e-mail addresses.",
+      "wardPattern": "{{ pattern }} should be of format WARD_NN, where NN is between 01 to 10.",
+      "uniquePattern": "{{ pattern }} already exists."
     }
   },
   "error": {

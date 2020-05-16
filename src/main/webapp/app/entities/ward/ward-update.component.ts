@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpResponse } from '@angular/common/http';
+import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { IWard, Ward } from 'app/shared/model/ward.model';
 import { WardService } from './ward.service';
+import { JhiAlertService } from 'ng-jhipster';
 
 @Component({
   selector: 'jhi-ward-update',
@@ -14,21 +15,36 @@ import { WardService } from './ward.service';
 })
 export class WardUpdateComponent implements OnInit {
   isSaving = false;
+  wardList: IWard[] = [];
 
   editForm = this.fb.group({
     id: [],
-    wardReferenceId: [null, [Validators.required, Validators.maxLength(7), Validators.pattern('^WARD_(0[1-9]|10)$')]],
+    wardReferenceId: [
+      null, 
+      [
+        Validators.required, 
+        Validators.maxLength(7), 
+        Validators.pattern('^WARD_(0[1-9]|10)$'),
+        this.uniqueWardRefIdValidator()
+      ]
+    ],
     wardName: [null, [Validators.required, Validators.maxLength(10)]],
     wardClassType: [null, [Validators.required]],
     wardLocation: [null, [Validators.required]]
   });
 
-  constructor(protected wardService: WardService, protected activatedRoute: ActivatedRoute, private fb: FormBuilder) {}
+  constructor(
+    protected wardService: WardService, 
+    protected activatedRoute: ActivatedRoute, 
+    private fb: FormBuilder,
+    protected jhiAlertService: JhiAlertService
+    ) {}
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ ward }) => {
       this.updateForm(ward);
     });
+    this.loadWards();
   }
 
   updateForm(ward: IWard): void {
@@ -81,4 +97,36 @@ export class WardUpdateComponent implements OnInit {
   protected onSaveError(): void {
     this.isSaving = false;
   }
+
+  protected onError(errorMsg: string): void {
+    this.jhiAlertService.error(errorMsg);
+  }
+
+  protected getWards(data: IWard[] | null): void {
+    if (data !== null) {
+      data.forEach(x => {
+        this.wardList.push(x);
+      });
+    } 
+  }
+
+  protected loadWards(): void {
+    this.wardService.query({})
+      .subscribe((res: HttpResponse<IWard[]>) => this.getWards(res.body), 
+      (res: HttpErrorResponse) => this.onError(res.message)
+      );
+  }
+
+  uniqueWardRefIdValidator(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: boolean } | null => {
+      const len = this.wardList.length;
+      for (let j = 0; j < len; j++) {
+        if(this.wardList[j].wardReferenceId === control.value) {
+          return { wardRefIdMismatch: true};
+        }
+      }
+      return null;
+    }
+  }
+
 }
