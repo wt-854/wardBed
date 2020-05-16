@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <!--
+        Added the constraints for entity Bed.
+    -->
+    <changeSet id="20200516030800-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="ward_id"
+                                 baseTableName="TBL_BED"
+                                 constraintName="fk_tbl_bed_ward_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="TBL_WARD"/>
+
+    </changeSet>
+</databaseChangeLog>

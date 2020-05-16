@@ -1,0 +1,25 @@
+{
+  "wardBedApp": {
+    "bed": {
+      "home": {
+        "title": "Beds",
+        "createLabel": "创建新 Bed",
+        "createOrEditLabel": "创建或编辑 Bed",
+        "notFound": "No Beds found"
+      },
+      "created": "Bed {{ param }} 创建成功",
+      "updated": "Bed {{ param }} 更新成功",
+      "deleted": "Bed {{ param }} 删除成功",
+      "delete": {
+        "question": "你确定要删除 Bed {{ id }} 吗？"
+      },
+      "detail": {
+        "title": "Bed"
+      },
+      "bedReferenceId": "Bed Reference Id",
+      "bedName": "Bed Name",
+      "wardAllocationDate": "Ward Allocation Date",
+      "ward": "Ward"
+    }
+  }
+}

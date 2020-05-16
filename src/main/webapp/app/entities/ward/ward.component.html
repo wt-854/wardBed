@@ -1,0 +1,77 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="wardBedApp.ward.home.title">Wards</span>
+
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-ward" [routerLink]="['/ward/new']">
+            <fa-icon icon="plus"></fa-icon>
+            <span  jhiTranslate="wardBedApp.ward.home.createLabel">
+            Create a new Ward
+            </span>
+        </button>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="wards?.length === 0">
+        <span jhiTranslate="wardBedApp.ward.home.notFound">No wards found</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="wards?.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+                    <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="wardReferenceId"><span jhiTranslate="wardBedApp.ward.wardReferenceId">Ward Reference Id</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="wardName"><span jhiTranslate="wardBedApp.ward.wardName">Ward Name</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="wardClassType"><span jhiTranslate="wardBedApp.ward.wardClassType">Ward Class Type</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="wardLocation"><span jhiTranslate="wardBedApp.ward.wardLocation">Ward Location</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let ward of wards ;trackBy: trackId">
+                    <td><a [routerLink]="['/ward', ward.id, 'view']">{{ ward.id }}</a></td>
+                    <td>{{ ward.wardReferenceId }}</td>
+                    <td>{{ ward.wardName }}</td>
+                    <td jhiTranslate="{{ 'wardBedApp.ClassType.' + ward.wardClassType }}">{{ ward.wardClassType }}</td>
+                    <td jhiTranslate="{{ 'wardBedApp.Location.' + ward.wardLocation }}">{{ ward.wardLocation }}</td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    [routerLink]="['/ward', ward.id, 'view']"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                            </button>
+
+                            <button type="submit"
+                                    [routerLink]="['/ward', ward.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                            </button>
+
+                            <button type="submit" (click)="delete(ward)"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div *ngIf="wards?.length > 0">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+        </div>
+    </div>
+</div>

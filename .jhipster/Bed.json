@@ -1,0 +1,55 @@
+{
+    "name": "Bed",
+    "fields": [
+        {
+            "fieldName": "bedReferenceId",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "pattern",
+                "required",
+                "maxlength",
+                "minlength",
+                "unique"
+            ],
+            "fieldValidateRulesPattern": "^BED_(0[1-9]|10)$",
+            "fieldValidateRulesMaxlength": "6",
+            "fieldValidateRulesMinlength": "1"
+        },
+        {
+            "fieldName": "bedName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required",
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": "17"
+        },
+        {
+            "fieldName": "wardAllocationDate",
+            "fieldType": "LocalDate",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipName": "ward",
+            "otherEntityName": "ward",
+            "relationshipType": "many-to-one",
+            "otherEntityRelationshipName": "bed",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20200516030800",
+    "entityTableName": "TBL_BED",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "readOnly": false,
+    "embedded": false,
+    "clientRootFolder": "",
+    "applications": "*"
+}

@@ -1,0 +1,62 @@
+{
+    "name": "Ward",
+    "fields": [
+        {
+            "fieldName": "wardReferenceId",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "pattern",
+                "required",
+                "maxlength",
+                "unique"
+            ],
+            "fieldValidateRulesPattern": "^WARD_(0[1-9]|10)$",
+            "fieldValidateRulesMaxlength": "7"
+        },
+        {
+            "fieldName": "wardName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required",
+                "maxlength",
+                "unique"
+            ],
+            "fieldValidateRulesMaxlength": "10"
+        },
+        {
+            "fieldName": "wardClassType",
+            "fieldType": "ClassType",
+            "fieldValues": "A,B,C",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "wardLocation",
+            "fieldType": "Location",
+            "fieldValues": "A1,A2,B1,B2",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipName": "bed",
+            "otherEntityName": "bed",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "ward"
+        }
+    ],
+    "changelogDate": "20200516030700",
+    "entityTableName": "TBL_WARD",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "readOnly": false,
+    "embedded": false,
+    "clientRootFolder": "",
+    "applications": "*"
+}
