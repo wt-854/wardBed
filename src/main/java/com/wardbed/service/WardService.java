@@ -32,6 +32,12 @@ public class WardService {
         this.wardMapper = wardMapper;
     }
 
+    @Transactional(readOnly = true)
+    public Page<Ward> searchWardName (String searchWardName, Pageable page) {
+        log.debug("Request to search for criteria Ward Name : {}", searchWardName);
+        return wardRepository.searchWardNameOnly(searchWardName, page);
+    }
+
     /**
      * Save a ward.
      *

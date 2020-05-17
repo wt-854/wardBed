@@ -7,6 +7,8 @@ import com.wardbed.service.dto.WardDTO;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
+import io.swagger.annotations.ApiParam;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,6 +25,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
+
+import com.wardbed.domain.Ward;
 
 /**
  * REST controller for managing {@link com.wardbed.domain.Ward}.
@@ -123,4 +127,15 @@ public class WardResource {
         wardService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
     }
+
+    @GetMapping("/wards/search")
+    public ResponseEntity<List<Ward>> searchWardName(@ApiParam String searchWardName, @ApiParam Pageable pageable) {
+        log.debug("REST request to get Ward Name: {}" + searchWardName);
+        Page<Ward> page = wardService.searchWardName(searchWardName, pageable);
+        // HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders("api/wards/search", page);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest() ,page);
+        // HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
 }

@@ -19,7 +19,7 @@ export class WardComponent implements OnInit, OnDestroy {
   wards?: IWard[];
   eventSubscriber?: Subscription;
   totalItems = 0;
-  itemsPerPage = 10;
+  itemsPerPage = 5;
   page!: number;
   predicate!: string;
   ascending!: boolean;
@@ -56,16 +56,17 @@ export class WardComponent implements OnInit, OnDestroy {
           () => this.onError()
         );
       } else {
-        this.wardService
-        .query({
-          page: pageToLoad - 1,
-          size: this.itemsPerPage,
-          sort: this.sort()
-        })
-        .subscribe(
-          (res: HttpResponse<IWard[]>) => this.onSearchSuccess(res.body, res.headers, pageToLoad, this.searchCriteria.searchWardName),
-          () => this.onError()
-        );
+          this.wardService
+            .search({
+              searchWardName: this.searchCriteria.searchWardName,
+              page: pageToLoad - 1,
+              size: this.itemsPerPage,
+              sort: this.sort()
+            })
+            .subscribe(
+              (res: HttpResponse<IWard[]>) => this.onSuccess(res.body, res.headers, pageToLoad),
+              () => this.onError()
+            );
       }
   }
 

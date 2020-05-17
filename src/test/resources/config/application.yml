@@ -18,10 +18,10 @@ spring:
     name: wardBed
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:h2:mem:wardBed;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
-    name:
-    username:
-    password:
+    url: jdbc:mysql://localhost:3306/wardbed?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
+    name: wardBed
+    username: root
+    password: password
     hikari:
       auto-commit: false
   jackson:
