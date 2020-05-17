@@ -18,11 +18,44 @@
         <span jhiTranslate="wardBedApp.ward.home.notFound">No wards found</span>
     </div>
 
+    <!-- <div class="row">
+        <form name="searchForm" class="col-sm-12">
+            <div class="card">
+                <div class="card-header"><span>Search Criteria</span></div>
+                <div class=card-block style="padding:1.5%">
+                    <label class="col-sm-2 form-control-label">Ward Name</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" name="searchWardName" id="searchWardName" [(ngModel)]="searchCriteria.searchWardName"/>
+                    </div>
+                    <div style="margin-top: 1.5%; padding:0.5%">
+                        <button type="submit" class="btn btn-warning btn-sm" (click)="search()">
+                            <fa-icon [icon]="'search'"></fa-icon>
+                            <span class="fa fa-search">Search</span>
+                        </button>
+                        <button type="button" class="btn btn-secondary btn-sm" (click)="clear()">
+                            <fa-icon [icon]="'trash-alt'"></fa-icon>
+                            <span class="fa fa-trash-o">Reset</span>
+                        </button>
+                    </div>    
+                </div>
+
+            </div>
+
+        </form>
+    </div> -->
+    <br>
+
+    <!-- 2 div tags taken-->
+    <div class="card">
+        <div class="card-header"><span>Search Result</span></div>
+        <div class="class card-block" style="padding:1.5% 1.5% 0 1.5%">
+
+    <!---->
     <div class="table-responsive" id="entities" *ngIf="wards?.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
-                    <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col" ><span jhiTranslate="global.field.sn">S/N</span></th>
                     <th scope="col"  jhiSortBy="wardReferenceId"><span jhiTranslate="wardBedApp.ward.wardReferenceId">Ward Reference Id</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="wardName"><span jhiTranslate="wardBedApp.ward.wardName">Ward Name</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="wardClassType"><span jhiTranslate="wardBedApp.ward.wardClassType">Ward Class Type</span> <fa-icon icon="sort"></fa-icon></th>
@@ -31,8 +64,8 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let ward of wards ;trackBy: trackId">
-                    <td><a [routerLink]="['/ward', ward.id, 'view']">{{ ward.id }}</a></td>
+                <tr *ngFor="let ward of wards ;trackBy: trackId; let index = index">
+                    <td>{{index+1}}</td>
                     <td>{{ ward.wardReferenceId }}</td>
                     <td>{{ ward.wardName }}</td>
                     <td jhiTranslate="{{ 'wardBedApp.ClassType.' + ward.wardClassType }}">{{ ward.wardClassType }}</td>
@@ -74,4 +107,6 @@
             <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
         </div>
     </div>
+</div>
+</div>
 </div>

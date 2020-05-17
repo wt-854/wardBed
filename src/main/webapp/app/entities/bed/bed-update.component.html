@@ -1,7 +1,8 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-            <h2 id="jhi-bed-heading" jhiTranslate="wardBedApp.bed.home.createOrEditLabel">Create or edit a Bed</h2>
+            <h2 id="jhi-ward-heading" *ngIf="!editForm.get('id')?.value" jhiTranslate="wardBedApp.bed.home.addLabel">Add Bed</h2>
+            <h2 id="jhi-ward-heading" *ngIf="editForm.get('id')?.value" jhiTranslate="wardBedApp.bed.home.editLabel">Edit Bed</h2>
 
             <div>
                 <jhi-alert-error></jhi-alert-error>
@@ -76,7 +77,7 @@
                     </div>
                     <ng-template #elseBlock>
                         <small class="form-text text-danger" jhiTranslate="wardBedApp.bed.dateMismatch"
-                               *ngIf="editForm.errors?.dateMismatch">
+                               *ngIf="!editForm.get('id')?.value && editForm.errors?.dateMismatch">
                         Ward Allocation Date cannot be before today.
                         </small>
                     </ng-template>
