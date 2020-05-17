@@ -9,6 +9,7 @@ export interface IWard {
   wardClassType?: ClassType;
   wardLocation?: Location;
   beds?: IBed[];
+  noOfBeds?: number;
 }
 
 export class Ward implements IWard {
@@ -18,6 +19,7 @@ export class Ward implements IWard {
     public wardName?: string,
     public wardClassType?: ClassType,
     public wardLocation?: Location,
-    public beds?: IBed[]
+    public beds?: IBed[],
+    public noOfBeds?: number
   ) {}
 }

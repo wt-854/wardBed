@@ -23,7 +23,8 @@
       "wardName": "Ward Name",
       "wardClassType": "Ward Class Type",
       "wardLocation": "Ward Location",
-      "bed": "Bed"
+      "bed": "Bed",
+      "noOfBeds": "No. of Beds"
     }
   }
 }

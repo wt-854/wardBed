@@ -67,6 +67,7 @@
                     <th scope="col"  jhiSortBy="wardName"><span jhiTranslate="wardBedApp.ward.wardName">Ward Name</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="wardClassType"><span jhiTranslate="wardBedApp.ward.wardClassType">Ward Class Type</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="wardLocation"><span jhiTranslate="wardBedApp.ward.wardLocation">Ward Location</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col" jhiSortBy="noOfBeds"><span jhiTranslate="wardBedApp.ward.noOfBeds">No. of Beds</span></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -77,6 +78,7 @@
                     <td>{{ ward.wardName }}</td>
                     <td jhiTranslate="{{ 'wardBedApp.ClassType.' + ward.wardClassType }}">{{ ward.wardClassType }}</td>
                     <td jhiTranslate="{{ 'wardBedApp.Location.' + ward.wardLocation }}">{{ ward.wardLocation }}</td>
+                    <td>{{ ward.noOfBeds }}</td>
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit"
