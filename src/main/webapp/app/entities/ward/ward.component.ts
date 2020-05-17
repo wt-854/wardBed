@@ -73,6 +73,7 @@ export class WardComponent implements OnInit, OnDestroy {
             console.log(this.wards);
             console.log(this.bedList);
             // refactor later on
+            // got bug with this. might double load 
             for (let i = 0; i < this.wards!.length; i++) {
               this.wards![i].noOfBeds = 0;
               for (let j = 0; j < this.bedList!.length; j++) {
