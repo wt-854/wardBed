@@ -25,6 +25,7 @@ export class WardComponent implements OnInit, OnDestroy {
   ascending!: boolean;
   ngbPaginationPage = 1;
   searchCriteria: any;
+  txt = 'ABCDE';
 /* eslint-disable no-console */
 
   constructor(
@@ -42,30 +43,32 @@ export class WardComponent implements OnInit, OnDestroy {
   loadPage(page?: number): void {
     const pageToLoad: number = page || this.page;
 
-    // means searchWardName is untouched
-    if (this.searchCriteria.searchWardName === '') {
-      this.wardService
-      .query({
-        page: pageToLoad - 1,
-        size: this.itemsPerPage,
-        sort: this.sort()
-      })
-      .subscribe(
-        (res: HttpResponse<IWard[]>) => this.onSuccess(res.body, res.headers, pageToLoad),
-        () => this.onError()
-      );
-    } else {
-      this.wardService
-      .query({
-        page: pageToLoad - 1,
-        size: this.itemsPerPage,
-        sort: this.sort()
-      })
-      .subscribe(
-        (res: HttpResponse<IWard[]>) => this.onSearchSuccess(res.body, res.headers, pageToLoad, this.searchCriteria.searchWardName),
-        () => this.onError()
-      );
-    }
+    if (this.searchCriteria.searchWardName === '' || 
+      this.searchCriteria.searchWardName === null || 
+      this.searchCriteria.searchWardName === 'undefined') {
+        this.wardService
+        .query({
+          page: pageToLoad - 1,
+          size: this.itemsPerPage,
+          sort: this.sort()
+        })
+        .subscribe(
+          (res: HttpResponse<IWard[]>) => this.onSuccess(res.body, res.headers, pageToLoad),
+          () => this.onError()
+        );
+      } else {
+        this.wardService
+        .query({
+          page: pageToLoad - 1,
+          size: this.itemsPerPage,
+          sort: this.sort()
+        })
+        .subscribe(
+          (res: HttpResponse<IWard[]>) => this.onSearchSuccess(res.body, res.headers, pageToLoad, this.searchCriteria.searchWardName),
+          () => this.onError()
+        );
+      }
+
 
   }
 
@@ -81,13 +84,11 @@ export class WardComponent implements OnInit, OnDestroy {
     this.registerChangeInWards();
   }
 
-  protected search(): void {
-    console.log('inside search');
-    // console.log(this.searchForm)
+  public search(): void {
     this.loadPage();
   }
 
-  protected clear(): void {
+  public clear(): void {
     this.searchCriteria = {
       searchWardName: ''
     };
@@ -96,8 +97,6 @@ export class WardComponent implements OnInit, OnDestroy {
         page: this.page,
         sort: this.predicate + ',' + (this.ascending ? 'asc' : 'desc')
     }]);
-    console.log('inside clear');
-    console.log(this.searchCriteria.searchWardName);
     this.loadPage();
   }
 
@@ -142,7 +141,7 @@ export class WardComponent implements OnInit, OnDestroy {
     this.wards = data || [];
   }
 
-  protected onSearchSuccess(data: IWard[] | null, headers: HttpHeaders, page: number, searchQuery: string): void {
+  public onSearchSuccess(data: IWard[] | null, headers: HttpHeaders, page: number, searchQuery: string): void {
     this.totalItems = Number(headers.get('X-Total-Count'));
     this.page = page;
     this.router.navigate(['/ward'], {
@@ -152,11 +151,33 @@ export class WardComponent implements OnInit, OnDestroy {
         sort: this.predicate + ',' + (this.ascending ? 'asc' : 'desc')
       }
     });
+    this.wards = [];
+    const txt = '/' + searchQuery + '/gi'; 
+    const regex = new RegExp(txt);
+    let count = 0;
+    console.log('FRESH');
+    // JUST REALISED FRONTEND SEARCH WAS BASED ON WHICH PAGE IM ON
     data?.forEach(x => {
-      if (x.wardName === searchQuery) {
+      if (x.wardName!.toString().toLocaleLowerCase().includes(searchQuery.toLocaleLowerCase())) {
         this.wards?.push(x);
+        count++;
+        // console.log(count);
+        // console.log('x.wardName lower');
+        // console.log(x.wardName.toString().toLocaleLowerCase());
+        // console.log('searchQuery lower');
+        // console.log(searchQuery.toLocaleLowerCase());
       }
     });
+    console.log('outside foreach');
+    console.log(count);
+    // this.totalItems = this.wards.length;
+    // console.log('new total items');
+    // console.log(this.totalItems);
+    console.log('inside onSearchSuccess');
+    console.log(this.wards);
+    console.log('items per page');
+    console.log(this.itemsPerPage);
+    console.log(this.page);
   }
 
   protected onError(): void {
