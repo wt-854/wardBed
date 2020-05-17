@@ -7,7 +7,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { IWard } from 'app/shared/model/ward.model';
 
-import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
+// import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { WardService } from './ward.service';
 import { WardDeleteDialogComponent } from './ward-delete-dialog.component';
 
@@ -25,8 +25,7 @@ export class WardComponent implements OnInit, OnDestroy {
   ascending!: boolean;
   ngbPaginationPage = 1;
   searchCriteria: any;
-  txt = 'ABCDE';
-/* eslint-disable no-console */
+  wardList?: IWard[];
 
   constructor(
     protected wardService: WardService,
@@ -68,11 +67,13 @@ export class WardComponent implements OnInit, OnDestroy {
           () => this.onError()
         );
       }
-
-
   }
 
   ngOnInit(): void {
+
+    this.activatedRoute.data.subscribe(() => {
+      this.wardService.query().subscribe((res: HttpResponse<IWard[]>) => (this.wardList = res.body || []));
+    });
     this.activatedRoute.data.subscribe(data => {
       this.page = data.pagingParams.page;
       this.ascending = data.pagingParams.ascending;
@@ -92,7 +93,7 @@ export class WardComponent implements OnInit, OnDestroy {
     this.searchCriteria = {
       searchWardName: ''
     };
-    this.page = 0;
+    this.page = 1;
     this.router.navigate(['/ward', {
         page: this.page,
         sort: this.predicate + ',' + (this.ascending ? 'asc' : 'desc')
@@ -151,33 +152,18 @@ export class WardComponent implements OnInit, OnDestroy {
         sort: this.predicate + ',' + (this.ascending ? 'asc' : 'desc')
       }
     });
-    this.wards = [];
-    const txt = '/' + searchQuery + '/gi'; 
-    const regex = new RegExp(txt);
-    let count = 0;
-    console.log('FRESH');
+    this.wards = []; // max is 10 anyway, doing this jus resets to 0
+
     // JUST REALISED FRONTEND SEARCH WAS BASED ON WHICH PAGE IM ON
-    data?.forEach(x => {
+    this.wardList?.forEach(x => {
       if (x.wardName!.toString().toLocaleLowerCase().includes(searchQuery.toLocaleLowerCase())) {
         this.wards?.push(x);
-        count++;
-        // console.log(count);
-        // console.log('x.wardName lower');
-        // console.log(x.wardName.toString().toLocaleLowerCase());
-        // console.log('searchQuery lower');
-        // console.log(searchQuery.toLocaleLowerCase());
       }
     });
-    console.log('outside foreach');
-    console.log(count);
-    // this.totalItems = this.wards.length;
-    // console.log('new total items');
-    // console.log(this.totalItems);
-    console.log('inside onSearchSuccess');
-    console.log(this.wards);
-    console.log('items per page');
-    console.log(this.itemsPerPage);
-    console.log(this.page);
+
+    // this is to set the pages after search
+    this.totalItems = this.wards.length;
+
   }
 
   protected onError(): void {
