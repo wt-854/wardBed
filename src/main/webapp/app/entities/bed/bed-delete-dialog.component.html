@@ -9,7 +9,10 @@
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
 
-        <p id="jhi-delete-bed-heading" jhiTranslate="wardBedApp.bed.delete.question" [translateValues]="{ id: bed.id }">Are you sure you want to delete this Bed?</p>
+        <p id="jhi-delete-bed-heading" jhiTranslate="wardBedApp.bed.delete.proceedQn" 
+        [translateValues]="{ id: bed.id, bedReferenceId: bed.bedReferenceId, bedName: bed.bedName }">
+        Proceed to remove ?
+        </p>
     </div>
 
     <div class="modal-footer">

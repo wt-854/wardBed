@@ -12,9 +12,10 @@
       },
       "created": "A new Bed is created with identifier {{ param }}",
       "updated": "Bed details updated successfully",
-      "deleted": "A Bed is deleted with identifier {{ param }}",
+      "deleted": "Bed deleted successfully",
       "delete": {
-        "question": "Are you sure you want to delete Bed {{ id }}?"
+        "question": "Are you sure you want to delete Bed {{ id }}?",
+        "proceedQn": "Proceed to remove {{ bedReferenceId }} {{ bedName }}?"
       },
       "detail": {
         "title": "Bed"
