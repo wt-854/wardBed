@@ -52,7 +52,7 @@
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
-                    <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.sn">S/N</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"><span jhiTranslate="global.field.sn">S/N</span></th>
                     <th scope="col"  jhiSortBy="wardId"><span jhiTranslate="wardBedApp.bed.wardName">Ward Name</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="bedReferenceId"><span jhiTranslate="wardBedApp.bed.bedReferenceId">Bed Reference Id</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="bedName"><span jhiTranslate="wardBedApp.bed.bedName">Bed Name</span> <fa-icon icon="sort"></fa-icon></th>

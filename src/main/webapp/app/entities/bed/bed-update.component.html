@@ -65,19 +65,19 @@
                             <button type="button" class="btn btn-secondary" (click)="wardAllocationDateDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
                         </span>
                     </div>
-                    <div *ngIf="editForm.get('wardAllocationDate')!.invalid && (editForm.get('wardAllocationDate')!.dirty || editForm.get('wardAllocationDate')!.touched);
-                    else elseBlock">
+                    <div *ngIf="editForm.get('wardAllocationDate')!.invalid && (editForm.get('wardAllocationDate')!.dirty || editForm.get('wardAllocationDate')!.touched)">
                         <small class="form-text text-danger"
-                               *ngIf="editForm.get('wardAllocationDate')?.errors?.required" jhiTranslate="entity.validation.required">
-                        This field is required.
+                            *ngIf="editForm.get('wardAllocationDate')?.errors?.required" jhiTranslate="entity.validation.required">
+                            This field is required.
+                        </small>
+                        <small class="form-text text-danger" jhiTranslate="wardBedApp.bed.dateMismatch"
+                               *ngIf="editForm.get('wardAllocationDate')?.errors?.dateMismatch">
+                                Ward Allocation Date cannot be before today.
                         </small>
                     </div>
-                    <ng-template #elseBlock>
-                        <small class="form-text text-danger" jhiTranslate="wardBedApp.bed.dateMismatch"
-                               *ngIf="!editForm.get('id')?.value && editForm.errors?.dateMismatch">
-                        Ward Allocation Date cannot be before today.
-                        </small>
-                    </ng-template>
+
+                    
+
                 </div>
 
                 <div class="form-group">

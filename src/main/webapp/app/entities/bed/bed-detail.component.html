@@ -24,7 +24,11 @@
                 </dd>
                 <dt><span *ngIf="bed.wardId"  jhiTranslate="wardBedApp.bed.wardClassType">Ward Class Type</span></dt>
                 <dd>
-                    <span *ngIf="bed.wardId">{{ bed.wardClassType }}</span>
+                    <div *ngIf="bed.wardId" [ngSwitch]="bed.wardClassType">
+                        <div *ngSwitchCase="'A'">Class A</div>
+                        <div *ngSwitchCase="'B'">Class B</div>
+                        <div *ngSwitchCase="'C'">Class C</div>  
+                    </div>  
                 </dd>
                 <dt><span jhiTranslate="wardBedApp.bed.wardAllocationDate">Ward Allocation Date</span></dt>
                 <dd>

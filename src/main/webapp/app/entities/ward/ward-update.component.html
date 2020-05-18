@@ -93,7 +93,8 @@
                 </button>
 
                 <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
-                    <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.add">Add</span>
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span *ngIf="!editForm.get('id')?.value" jhiTranslate="entity.action.add">Add</span>
+                    <span *ngIf="editForm.get('id')?.value" jhiTranslate="entity.action.edit">Edit</span>
                 </button>
             </div>
         </form>

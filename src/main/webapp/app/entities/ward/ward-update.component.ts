@@ -16,6 +16,8 @@ import { JhiAlertService } from 'ng-jhipster';
 export class WardUpdateComponent implements OnInit {
   isSaving = false;
   wardList: IWard[] = [];
+  initialForm: any;
+  initialWard: IWard = {};
 
   editForm = this.fb.group({
     id: [],
@@ -52,6 +54,7 @@ export class WardUpdateComponent implements OnInit {
       this.updateForm(ward);
     });
     this.loadWards();
+    this.initialForm = this.createFromForm();
   }
 
   updateForm(ward: IWard): void {
@@ -130,8 +133,12 @@ export class WardUpdateComponent implements OnInit {
   uniqueWardRefIdValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: boolean } | null => {
       const len = this.wardList.length;
+      this.initialWard = this.initialForm;
       for (let j = 0; j < len; j++) {
         if (this.wardList[j].wardReferenceId === control.value) {
+          if (this.initialWard.wardReferenceId === control.value) {
+            return null;
+          }
           return { wardRefIdMismatch: true};
         }
       }
@@ -142,8 +149,12 @@ export class WardUpdateComponent implements OnInit {
   uniqueWardNameValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: boolean } | null => {
       const len = this.wardList.length;
+      this.initialWard = this.initialForm;
       for(let j = 0; j < len; j++) {
         if (this.wardList[j].wardName === control.value) {
+          if (this.initialWard.wardName === control.value) {
+            return null;
+          }
           return { wardNameMismatch: true};
         }
       }

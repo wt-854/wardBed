@@ -9,7 +9,9 @@ import { BedService } from './bed.service';
 import { IWard } from 'app/shared/model/ward.model';
 import { WardService } from 'app/entities/ward/ward.service';
 import { JhiAlertService } from 'ng-jhipster';
-import { dateNotBeforeTodayValidator } from './bed-date-validation';
+// import { dateNotBeforeTodayValidator } from './bed-date-validation';
+import * as moment from 'moment';
+import { DATE_FORMAT_DDMMYYYY } from 'app/shared/constants/input.constants';
 
 
 @Component({
@@ -23,6 +25,8 @@ export class BedUpdateComponent implements OnInit {
   bedList: IBed[] = [];
   sortedWards: IWard[] = [];
   bedCopy: IBed[] = [];
+  initialForm: any;
+  initialBed: IBed = {};
 
   editForm = this.fb.group({
     id: [],
@@ -37,9 +41,9 @@ export class BedUpdateComponent implements OnInit {
       ]
     ],
     bedName: [null, [Validators.maxLength(17), this.uniqueBedNameValidator()]],
-    wardAllocationDate: [null, [Validators.required]],
+    wardAllocationDate: [null, [Validators.required, this.dateValidator()]],
     wardId: []
-  } , { validator: dateNotBeforeTodayValidator}
+  } // , { validator: dateNotBeforeTodayValidator}
   );
 
   constructor(
@@ -57,6 +61,7 @@ export class BedUpdateComponent implements OnInit {
     });
     this.loadSortedWards();
     this.loadBeds();
+    this.initialForm = this.createFromForm();
   }
 
   getSortedWards(data: IWard[]): void {
@@ -186,9 +191,20 @@ export class BedUpdateComponent implements OnInit {
   uniqueBedRefIdValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: boolean } | null => {
       const len = this.bedList.length;
+      this.initialBed =  this.initialForm;
+      let oldBedRefId = '';
       for (let j = 0; j < len; j++) {
         if (this.bedList[j].bedReferenceId === control.value) {
+          if (typeof this.initialBed === 'undefined') {
+            oldBedRefId = '';
+          } else {
+            oldBedRefId = this.initialBed.bedReferenceId!;
+            if (oldBedRefId === control.value) {
+              return null;
+            }
+          }
           return { bedRefIdMismatch: true };
+          
         }
       }
       return null;
@@ -198,13 +214,41 @@ export class BedUpdateComponent implements OnInit {
   uniqueBedNameValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: boolean } | null => {
       const len = this.bedList.length;
+      this.initialBed = this.initialForm;
+      let oldBedName = '';
       for (let j = 0; j < len; j++) {
         if (this.bedList[j].bedName === control.value) {
+          if (typeof this.initialBed === 'undefined') {
+            oldBedName = '';
+          } else {
+            oldBedName = this.initialBed.bedName!;
+            if (oldBedName === control.value) {
+              return null;
+            }
+          }
           return { bedNameMismatch: true };
         }
       }
       return null;
     };
+  }
+
+  dateValidator(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: boolean } | null => {
+      const today = moment().format(DATE_FORMAT_DDMMYYYY);
+      const compareDate = moment(control.value).format(DATE_FORMAT_DDMMYYYY);
+      this.initialBed =  this.initialForm;
+      let oldDate = ''; 
+      if (typeof this.initialBed === 'undefined') {
+        oldDate = '';
+      } else {
+        oldDate = moment(this.initialBed.wardAllocationDate).format(DATE_FORMAT_DDMMYYYY);
+        if (compareDate === oldDate) {
+          return null;
+        }
+      }
+      return compareDate < today ? { dateMismatch: true } : null;
+    }
   }
 
 }
