@@ -12,6 +12,7 @@ import { BedService } from './bed.service';
 import { BedComponent } from './bed.component';
 import { BedDetailComponent } from './bed-detail.component';
 import { BedUpdateComponent } from './bed-update.component';
+import { BedAddPopupComponent } from './bed-add-dialog.component';
 
 @Injectable({ providedIn: 'root' })
 export class BedResolve implements Resolve<IBed> {
@@ -45,7 +46,7 @@ export const bedRoute: Routes = [
     data: {
       authorities: [Authority.USER],
       defaultSort: 'id,asc',
-      pageTitle: 'wardBedApp.bed.home.title'
+      pageTitle: 'wardBedApp.bed.home.manageLabel'
     },
     canActivate: [UserRouteAccessService]
   },
@@ -57,7 +58,7 @@ export const bedRoute: Routes = [
     },
     data: {
       authorities: [Authority.USER],
-      pageTitle: 'wardBedApp.bed.home.title'
+      pageTitle: 'wardBedApp.bed.home.viewLabel'
     },
     canActivate: [UserRouteAccessService]
   },
@@ -69,7 +70,7 @@ export const bedRoute: Routes = [
     },
     data: {
       authorities: [Authority.USER],
-      pageTitle: 'wardBedApp.bed.home.title'
+      pageTitle: 'wardBedApp.bed.home.addLabel'
     },
     canActivate: [UserRouteAccessService]
   },
@@ -81,8 +82,24 @@ export const bedRoute: Routes = [
     },
     data: {
       authorities: [Authority.USER],
-      pageTitle: 'wardBedApp.bed.home.title'
+      pageTitle: 'wardBedApp.bed.home.editLabel'
     },
     canActivate: [UserRouteAccessService]
+  }
+];
+
+export const addBedPopupRoute: Routes = [
+  {
+    path: ':id/new',
+    component: BedAddPopupComponent,
+    resolve: {
+      bed: BedResolve
+    },
+    data: {
+      authorities: [Authority.USER],
+      pageTitle: 'wardBedApp.bed.home.addLabel'
+    },
+    canActivate: [UserRouteAccessService],
+    outlet: 'popup'
   }
 ];

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { FormBuilder, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { IBed, Bed } from 'app/shared/model/bed.model';
@@ -12,7 +12,7 @@ import { JhiAlertService } from 'ng-jhipster';
 // import { dateNotBeforeTodayValidator } from './bed-date-validation';
 import * as moment from 'moment';
 import { DATE_FORMAT_DDMMYYYY } from 'app/shared/constants/input.constants';
-
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'jhi-bed-update',
@@ -51,7 +51,9 @@ export class BedUpdateComponent implements OnInit {
     protected wardService: WardService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder,
-    protected jhiAlertService: JhiAlertService
+    protected jhiAlertService: JhiAlertService,
+    protected router: Router,
+    protected modalService: NgbModal,
   ) {}
 
   ngOnInit(): void {
@@ -106,12 +108,23 @@ export class BedUpdateComponent implements OnInit {
     const finalBed = this.finalForm(emptyName); 
 
     if (bed.id !== undefined) {
-      this.subscribeToSaveResponse(this.bedService.update(finalBed));
-      // this.subscribeToSaveResponse(this.bedService.update(bed));
+      if (bed.bedName === '' || bed.bedName === null) {
+        this.subscribeToSaveResponse(this.bedService.update(finalBed));
+      } else {
+        this.subscribeToSaveResponse(this.bedService.update(bed));
+      }
     } else {
-      this.subscribeToSaveResponse(this.bedService.create(finalBed));
-      // this.subscribeToSaveResponse(this.bedService.create(bed));
+      if (bed.bedName === '' || bed.bedName === null) {
+        this.subscribeToSaveResponse(this.bedService.create(finalBed));
+      } else {
+        this.subscribeToSaveResponse(this.bedService.create(bed));
+      }
+      this.createAgain();
     }
+  }
+
+  private createAgain(): void {
+    this.router.navigate(['/bed/new']);
   }
 
   private finalForm(emptyName: string): IBed {

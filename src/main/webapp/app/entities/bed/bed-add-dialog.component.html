@@ -1,0 +1,30 @@
+<!-- <form *ngIf="bed" name="addForm" (ngSubmit)="confirmDelete(bed?.id!)"> -->
+<form *ngIf="bed" name="addForm" (ngSubmit)="confirmDelete(bed?.id!)">
+    <div class="modal-header">
+        <!-- <h4 class="modal-title" jhiTranslate="entity.delete.addBedAgain">Confirm delete operation</h4> -->
+
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="cancel()">&times;</button>
+    </div>
+
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+
+        <p id="jhi-delete-bed-heading" jhiTranslate="entity.delete.addBedAgain">
+            Bed details added successfully. Do you want to add another new bed?
+        </p>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cancel()">
+            <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button id="jhi-confirm-add-bed" type="submit" class="btn btn-danger">
+            <fa-icon icon="plus"></fa-icon>
+            <span  jhiTranslate="wardBedApp.bed.home.addLabel">
+            Add Bed
+            </span>
+        </button>
+    </div>
+</form>
