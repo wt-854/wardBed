@@ -1,4 +1,5 @@
 import { Moment } from 'moment';
+import { IWard } from 'app/shared/model/ward.model';
 
 export interface IBed {
   id?: number;
@@ -8,6 +9,8 @@ export interface IBed {
   wardId?: number;
   wardName?: string;
   wardClassType?: string;
+  ward?: IWard[];
+
 }
 
 export class Bed implements IBed {
@@ -18,6 +21,7 @@ export class Bed implements IBed {
     public wardAllocationDate?: Moment,
     public wardId?: number,
     public wardName?: string,
-    public wardClassType?: string
+    public wardClassType?: string,
+    public ward?: IWard[]
   ) {}
 }

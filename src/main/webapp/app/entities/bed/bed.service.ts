@@ -49,12 +49,19 @@ export class BedService {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
-  search(req?: any): Observable<HttpResponse<any>> {
+  search(req?: any): Observable<EntityArrayResponseType> {
     const params: HttpParams = createRequestOption(req);
     return this.http
       .get<IBed[]>(`${this.resourceUrl}/search`, { params, observe: 'response' })
-      .pipe(map((res: HttpResponse<any>) => this.convertDateArrayFromServer(res)));
+      .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
   }
+
+  // search(req?: any): Observable<HttpResponse<any>> {
+  //   const params: HttpParams = createRequestOption(req);
+  //   return this.http
+  //     .get<IBed[]>(`${this.resourceUrl}/search`, { params, observe: 'response' })
+  //     .pipe(map((res: HttpResponse<any>) => this.convertDateArrayFromServer(res)));
+  // }
 
   protected convertDateFromClient(bed: IBed): IBed {
     const copy: IBed = Object.assign({}, bed, {

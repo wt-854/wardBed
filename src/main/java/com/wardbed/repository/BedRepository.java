@@ -1,7 +1,7 @@
 package com.wardbed.repository;
 
 import com.wardbed.domain.Bed;
-
+import com.wardbed.service.dto.BedDTO;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.domain.Page;

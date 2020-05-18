@@ -25,7 +25,8 @@
       "wardAllocationDate": "Ward Allocation Date",
       "ward": "Ward",
       "dateMismatch": "Ward Allocation Date cannot be before today.",
-      "wardClassType": "Ward Class Type"
+      "wardClassType": "Ward Class Type",
+      "wardName": "Ward Name"
     }
   }
 }

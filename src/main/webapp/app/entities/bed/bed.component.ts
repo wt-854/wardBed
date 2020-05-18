@@ -6,8 +6,9 @@ import { JhiEventManager } from 'ng-jhipster';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { IBed } from 'app/shared/model/bed.model';
-
-import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
+import { IWard } from 'app/shared/model/ward.model';
+import { WardService } from '../ward/ward.service';
+// import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { BedService } from './bed.service';
 import { BedDeleteDialogComponent } from './bed-delete-dialog.component';
 
@@ -19,27 +20,39 @@ export class BedComponent implements OnInit, OnDestroy {
   beds?: IBed[];
   eventSubscriber?: Subscription;
   totalItems = 0;
-  itemsPerPage = ITEMS_PER_PAGE;
+  itemsPerPage = 10; // ITEMS_PER_PAGE;
   page!: number;
   predicate!: string;
   ascending!: boolean;
   ngbPaginationPage = 1;
   searchCriteria: any;
+  wardList: IWard[] = [];
+  singleWard: IWard = {};
 
+/* eslint-disable no-console */
   constructor(
     protected bedService: BedService,
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
     protected eventManager: JhiEventManager,
-    protected modalService: NgbModal
+    protected modalService: NgbModal,
+    protected wardService: WardService
   ) {
     this.searchCriteria = {
       searchBedName: ''
     };
+    this.wardService
+    .query({})
+    .subscribe(
+      (res: HttpResponse<IWard[]>) => this.wardList = (res.body || []),
+      () => this.onError()
+    );
   }
 
   loadPage(page?: number): void {
     const pageToLoad: number = page || this.page;
+
+    // TEST SEARCH METHOD
 
     if (this.searchCriteria.searchBedName === '' || 
     this.searchCriteria.searchBedName === null || 
@@ -63,11 +76,13 @@ export class BedComponent implements OnInit, OnDestroy {
         sort: this.sort()
       })
       .subscribe(
-        (res: HttpResponse<IBed[]>) => this.onSuccess(res.body, res.headers, pageToLoad),
+        (res: HttpResponse<IBed[]>) => {
+          this.onSearchSuccess(res.body, res.headers, pageToLoad);
+            // console.log(res.body);
+        },
         () => this.onError()
       );
     }
-
   }
 
   ngOnInit(): void {
@@ -136,6 +151,39 @@ export class BedComponent implements OnInit, OnDestroy {
       }
     });
     this.beds = data || [];
+    this.beds.forEach(x => {
+      this.wardList.forEach(y => {
+        if (y.id === x.wardId) {
+          x.wardName = y.wardName;
+        }
+      });
+    });
+  }
+
+  protected onSearchSuccess(data: IBed[] | null, headers: HttpHeaders, page: number): void {
+    this.totalItems = Number(headers.get('X-Total-Count'));
+    this.page = page;
+    this.router.navigate(['/bed'], {
+      queryParams: {
+        page: this.page,
+        size: this.itemsPerPage,
+        sort: this.predicate + ',' + (this.ascending ? 'asc' : 'desc')
+      }
+    });
+    this.beds = data || [];
+    this.beds.forEach(x => {
+
+      // extract the ward details
+      Object.assign(this.singleWard, x.ward);
+      
+      this.wardList.forEach(y => {
+        if (y.id === this.singleWard.id) {
+          x.wardId = this.singleWard.id;
+          x.wardName = this.singleWard.wardName;
+        }
+      });
+    });
+    
   }
 
   protected onError(): void {

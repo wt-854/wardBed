@@ -52,25 +52,26 @@
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
-                    <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.sn">S/N</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="wardId"><span jhiTranslate="wardBedApp.bed.wardName">Ward Name</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="bedReferenceId"><span jhiTranslate="wardBedApp.bed.bedReferenceId">Bed Reference Id</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="bedName"><span jhiTranslate="wardBedApp.bed.bedName">Bed Name</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="wardAllocationDate"><span jhiTranslate="wardBedApp.bed.wardAllocationDate">Ward Allocation Date</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="wardId"><span jhiTranslate="wardBedApp.bed.ward">Ward</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="wardAllocationDate"><span jhiTranslate="wardBedApp.bed.wardAllocationDate">Ward Allocation Date</span> <fa-icon icon="sort"></fa-icon></th>                    
                     <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let bed of beds ;trackBy: trackId">
-                    <td><a [routerLink]="['/bed', bed.id, 'view']">{{ bed.id }}</a></td>
+                <tr *ngFor="let bed of beds ;trackBy: trackId; let index = index">
+                    <td>{{index+1}}</td>
+                    <!-- <td><a [routerLink]="['/bed', bed.id, 'view']">{{ bed.id }}</a></td> -->
+                    <td>
+                        <div *ngIf="bed.wardId">
+                            <a [routerLink]="['/ward', bed.wardId , 'view']" >{{ bed.wardName }}</a>
+                        </div>
+                    </td>
                     <td>{{ bed.bedReferenceId }}</td>
                     <td>{{ bed.bedName }}</td>
                     <td>{{ bed.wardAllocationDate | date:'mediumDate' }}</td>
-                    <td>
-                        <div *ngIf="bed.wardId">
-                            <a [routerLink]="['/ward', bed.wardId , 'view']" >{{ bed.wardId }}</a>
-                        </div>
-                    </td>
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit"
