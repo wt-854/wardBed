@@ -92,7 +92,7 @@ export class BedComponent implements OnInit, OnDestroy {
     this.activatedRoute.data.subscribe(data => {
       this.page = data.pagingParams.page;
       this.ascending = data.pagingParams.ascending;
-      this.predicate = 'bedName'; // data.pagingParams.predicate;
+      this.predicate = 'bedReferenceId'; // data.pagingParams.predicate;
       this.ngbPaginationPage = data.pagingParams.page;
       this.loadPage();
     });
@@ -137,8 +137,8 @@ export class BedComponent implements OnInit, OnDestroy {
 
   sort(): string[] {
     const result = [this.predicate + ',' + (this.ascending ? 'asc' : 'desc')];
-    if (this.predicate !== 'id') {
-      result.push('id');
+    if (this.predicate !== 'bedReferenceId') {
+      result.push('bedReferenceId');
     }
     return result;
   }

@@ -5,10 +5,11 @@
         "title": "Wards",
         "createLabel": "Add Ward",
         "createOrEditLabel": "Create or edit a Ward",
-        "notFound": "No Wards found",
+        "notFound": "No matching records",
         "editLabel": "Edit Ward",
         "viewLabel": "View Ward",
-        "deleteLabel": "Delete Ward"
+        "deleteLabel": "Delete Ward",
+        "noRecord": "No bed records"
       },
       "created": "Ward details added successfully",
       "updated": "A Ward is updated with identifier {{ param }}",

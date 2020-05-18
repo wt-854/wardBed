@@ -19,7 +19,6 @@
             "fieldName": "bedName",
             "fieldType": "String",
             "fieldValidateRules": [
-                "required",
                 "maxlength"
             ],
             "fieldValidateRulesMaxlength": "17"

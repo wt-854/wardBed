@@ -5,7 +5,7 @@
         "title": "Beds",
         "createLabel": "Create Bed",
         "createOrEditLabel": "Create or edit a Bed",
-        "notFound": "No Beds found",
+        "notFound": "No matching records",
         "viewLabel": "View Bed",
         "editLabel": "Edit Bed",
         "addLabel": "Add Bed"

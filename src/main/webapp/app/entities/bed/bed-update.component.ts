@@ -36,7 +36,7 @@ export class BedUpdateComponent implements OnInit {
         this.uniqueBedRefIdValidator()
       ]
     ],
-    bedName: [null, [Validators.required, Validators.maxLength(17), this.uniqueBedNameValidator()]],
+    bedName: [null, [Validators.maxLength(17), this.uniqueBedNameValidator()]],
     wardAllocationDate: [null, [Validators.required]],
     wardId: []
   } , { validator: dateNotBeforeTodayValidator}
@@ -90,11 +90,34 @@ export class BedUpdateComponent implements OnInit {
   save(): void {
     this.isSaving = true;
     const bed = this.createFromForm();
+    const bWid = this.editForm.get(['wardId'])!.value;
+    let wName = '';
+    this.sortedWards.forEach(x => {
+      if (x.id === bWid) {
+        wName = x.wardName!;
+      }
+    });
+    const emptyName = wName + '_' + this.editForm.get(['bedReferenceId'])!.value;
+    const finalBed = this.finalForm(emptyName); 
+
     if (bed.id !== undefined) {
-      this.subscribeToSaveResponse(this.bedService.update(bed));
+      this.subscribeToSaveResponse(this.bedService.update(finalBed));
+      // this.subscribeToSaveResponse(this.bedService.update(bed));
     } else {
-      this.subscribeToSaveResponse(this.bedService.create(bed));
+      this.subscribeToSaveResponse(this.bedService.create(finalBed));
+      // this.subscribeToSaveResponse(this.bedService.create(bed));
     }
+  }
+
+  private finalForm(emptyName: string): IBed {
+    return {
+      ...new Bed(),
+      id: this.editForm.get(['id'])!.value,
+      bedReferenceId: this.editForm.get(['bedReferenceId'])!.value,
+      bedName: emptyName,
+      wardAllocationDate: this.editForm.get(['wardAllocationDate'])!.value,
+      wardId: this.editForm.get(['wardId'])!.value
+    };
   }
 
   private createFromForm(): IBed {

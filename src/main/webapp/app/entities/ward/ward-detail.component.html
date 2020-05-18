@@ -1,8 +1,8 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="ward">
-            <h2><span jhiTranslate="wardBedApp.ward.detail.title">Ward</span> {{ ward.id }}</h2>
-
+            <!-- <h2><span jhiTranslate="wardBedApp.ward.detail.title">Ward</span> {{ ward.id }}</h2> -->
+            <h2><span jhiTranslate="wardBedApp.ward.home.viewLabel"></span></h2>
             <hr>
 
             <jhi-alert-error></jhi-alert-error>
@@ -18,18 +18,28 @@
                 </dd>
                 <dt><span jhiTranslate="wardBedApp.ward.wardClassType">Ward Class Type</span></dt>
                 <dd>
-                    <span jhiTranslate="{{ 'wardBedApp.ClassType.' + ward.wardClassType }}">{{ ward.wardClassType }}</span>
+                    <div [ngSwitch]="ward.wardClassType">
+                        <div *ngSwitchCase="'A'">Class A</div>
+                        <div *ngSwitchCase="'B'">Class B</div>
+                        <div *ngSwitchCase="'C'">Class C</div>  
+                    </div>   
                 </dd>
                 <dt><span jhiTranslate="wardBedApp.ward.wardLocation">Ward Location</span></dt>
                 <dd>
-                    <span jhiTranslate="{{ 'wardBedApp.Location.' + ward.wardLocation }}">{{ ward.wardLocation }}</span>
+                    <div [ngSwitch]="ward.wardLocation">
+                        <div *ngSwitchCase="'A1'">Block A Level 1</div>
+                        <div *ngSwitchCase="'A2'">Block A Level 2</div>
+                        <div *ngSwitchCase="'B1'">Block B Level 1</div>
+                        <div *ngSwitchCase="'B2'">Block B Level 2</div>  
+                    </div>
+                    <!-- <span jhiTranslate="{{ 'wardBedApp.Location.' + ward.wardLocation }}">{{ ward.wardLocation }}</span> -->
                 </dd>
             </dl>
 
             <button type="submit"
                     (click)="previousState()"
                     class="btn btn-info">
-                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
             </button>
 
             <button type="button"
@@ -37,6 +47,36 @@
                     class="btn btn-primary">
                 <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
             </button>
+
+            <br><br>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="wardBedApp.ward.noOfBeds">No. of Beds</span></dt>
+                <dd>
+                    <span>{{ ward.noOfBeds }}</span>
+                </dd>
+            </dl>
+
+            <span *ngIf="ward.beds?.length == 0" jhiTranslate="wardBedApp.ward.home.noRecord">No bed records</span>
+            <br><br>
+            <div class="table-responsive" [hidden]="ward.beds?.length == 0">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th><span jhiTranslate="global.field.sn">S/N</span></th>
+                            <th><span jhiTranslate="wardBedApp.bed.bedReferenceId">Bed Reference ID</span></th>
+                            <th><span jhiTranslate="wardBedApp.bed.bedName">Bed Name</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let bed of ward.beds; let index=index">
+                            <td>{{index+1}}</td>
+                            <td>{{ bed.bedReferenceId }}</td>
+                            <td><a [routerLink]="['/bed', bed.id , 'view']" >{{ bed.bedName }}</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

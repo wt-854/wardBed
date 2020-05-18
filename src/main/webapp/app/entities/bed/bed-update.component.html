@@ -49,10 +49,7 @@
                             jhiTranslate="entity.validation.uniquePattern" [translateValues]="{ pattern: 'Bed Name' }">
                         Bed Name in use.
                         </small>
-                        <small class="form-text text-danger"
-                               *ngIf="editForm.get('bedName')?.errors?.required" jhiTranslate="entity.validation.required">
-                        This field is required.
-                        </small>
+
                         <small class="form-text text-danger"
                                *ngIf="editForm.get('bedName')?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 17 }">
                         This field cannot be longer than 17 characters.
