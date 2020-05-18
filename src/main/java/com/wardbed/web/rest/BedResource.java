@@ -7,6 +7,8 @@ import com.wardbed.service.dto.BedDTO;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
+import io.swagger.annotations.ApiParam;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,6 +25,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
+import com.wardbed.domain.Bed;
 
 /**
  * REST controller for managing {@link com.wardbed.domain.Bed}.
@@ -122,5 +125,15 @@ public class BedResource {
         log.debug("REST request to delete Bed : {}", id);
         bedService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
+    }
+
+    @GetMapping("/beds/search")
+    public ResponseEntity<List<Bed>> searchBedName(@ApiParam String searchBedName, @ApiParam Pageable pageable) {
+        log.debug("REST request to get Ward Name: {}" + searchBedName);
+        Page<Bed> page = bedService.searchBedName(searchBedName, pageable);
+        // HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders("api/wards/search", page);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest() ,page);
+        // HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 }

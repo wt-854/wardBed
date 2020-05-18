@@ -32,6 +32,12 @@ public class BedService {
         this.bedMapper = bedMapper;
     }
 
+    @Transactional(readOnly = true)
+    public Page<Bed> searchBedName (String searchBedName, Pageable page) {
+        log.debug("Request to search for criteria Ward Name : {}", searchBedName);
+        return bedRepository.searchBedNameOnly(searchBedName, page);
+    }
+
     /**
      * Save a bed.
      *

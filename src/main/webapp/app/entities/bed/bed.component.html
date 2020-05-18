@@ -18,6 +18,36 @@
         <span jhiTranslate="wardBedApp.bed.home.notFound">No beds found</span>
     </div>
 
+    <div class="row">
+        <form name="searchForm" class="col-sm-12">
+            <div class="card">
+                <div class="card-header"><span>Search Criteria</span></div>
+                <div class=card-block style="padding:1.5%">
+                    <label class="col-sm-2 form-control-label">Bed Name</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" name="searchBedName" id="searchBedName" [(ngModel)]="searchCriteria.searchBedName"/>
+                    </div>
+                    <div style="margin-top: 1.5%; padding:0.5%">
+                        <button type="submit" class="btn btn-warning btn-sm" (click)="search()">
+                            <fa-icon [icon]="'search'"></fa-icon>
+                            <span class="fa fa-search">Search</span>
+                        </button>
+                        <button type="button" class="btn btn-secondary btn-sm" (click)="clear()">
+                            <fa-icon [icon]="'trash-alt'"></fa-icon>
+                            <span class="fa fa-trash-o">Reset</span>
+                        </button>
+                    </div>    
+                </div>
+            </div>
+        </form>
+    </div>
+    <br>
+
+    <!-- 2 div tags taken-->
+    <div class="card">
+        <div class="card-header"><span>Search Result</span></div>
+        <div class="class card-block" style="padding:1.5% 1.5% 0 1.5%">
+
     <div class="table-responsive" id="entities" *ngIf="beds?.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
@@ -78,4 +108,6 @@
             <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
         </div>
     </div>
+</div>
+</div>
 </div>

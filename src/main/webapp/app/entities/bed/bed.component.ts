@@ -24,6 +24,7 @@ export class BedComponent implements OnInit, OnDestroy {
   predicate!: string;
   ascending!: boolean;
   ngbPaginationPage = 1;
+  searchCriteria: any;
 
   constructor(
     protected bedService: BedService,
@@ -31,12 +32,19 @@ export class BedComponent implements OnInit, OnDestroy {
     protected router: Router,
     protected eventManager: JhiEventManager,
     protected modalService: NgbModal
-  ) {}
+  ) {
+    this.searchCriteria = {
+      searchBedName: ''
+    };
+  }
 
   loadPage(page?: number): void {
     const pageToLoad: number = page || this.page;
 
-    this.bedService
+    if (this.searchCriteria.searchBedName === '' || 
+    this.searchCriteria.searchBedName === null || 
+    this.searchCriteria.searchBedName === 'undefined') {
+      this.bedService
       .query({
         page: pageToLoad - 1,
         size: this.itemsPerPage,
@@ -46,17 +54,47 @@ export class BedComponent implements OnInit, OnDestroy {
         (res: HttpResponse<IBed[]>) => this.onSuccess(res.body, res.headers, pageToLoad),
         () => this.onError()
       );
+    } else {
+      this.bedService
+      .search({
+        searchBedName: this.searchCriteria.searchBedName,
+        page: pageToLoad - 1,
+        size: this.itemsPerPage,
+        sort: this.sort()
+      })
+      .subscribe(
+        (res: HttpResponse<IBed[]>) => this.onSuccess(res.body, res.headers, pageToLoad),
+        () => this.onError()
+      );
+    }
+
   }
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(data => {
       this.page = data.pagingParams.page;
       this.ascending = data.pagingParams.ascending;
-      this.predicate = data.pagingParams.predicate;
+      this.predicate = 'bedName'; // data.pagingParams.predicate;
       this.ngbPaginationPage = data.pagingParams.page;
       this.loadPage();
     });
     this.registerChangeInBeds();
+  }
+
+  public search(): void {
+    this.loadPage();
+  }
+
+  public clear(): void {
+    this.searchCriteria = {
+      searchBedName: ''
+    };
+    this.page = 1;
+    this.router.navigate(['/bed', {
+        page: this.page,
+        sort: this.predicate + ',' + (this.ascending ? 'asc' : 'desc')
+    }]);
+    this.loadPage();
   }
 
   ngOnDestroy(): void {
