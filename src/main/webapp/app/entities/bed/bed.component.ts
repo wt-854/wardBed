@@ -64,7 +64,10 @@ export class BedComponent implements OnInit, OnDestroy {
         sort: this.sort()
       })
       .subscribe(
-        (res: HttpResponse<IBed[]>) => this.onSuccess(res.body, res.headers, pageToLoad),
+        (res: HttpResponse<IBed[]>) => {
+          this.onSuccess(res.body, res.headers, pageToLoad);
+          
+        },
         () => this.onError()
       );
     } else {
@@ -151,6 +154,8 @@ export class BedComponent implements OnInit, OnDestroy {
       }
     });
     this.beds = data || [];
+    console.log('normal');
+    console.log(this.beds);
     this.beds.forEach(x => {
       this.wardList.forEach(y => {
         if (y.id === x.wardId) {
@@ -171,6 +176,8 @@ export class BedComponent implements OnInit, OnDestroy {
       }
     });
     this.beds = data || [];
+    console.log('here');
+    console.log(data);
     this.beds.forEach(x => {
 
       // extract the ward details

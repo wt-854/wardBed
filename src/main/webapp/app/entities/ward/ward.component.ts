@@ -12,7 +12,7 @@ import { WardService } from './ward.service';
 import { WardDeleteDialogComponent } from './ward-delete-dialog.component';
 import { BedService } from 'app/entities/bed/bed.service';
 import { IBed } from 'app/shared/model/bed.model';
-/* eslint-disable no-console */
+
 @Component({
   selector: 'jhi-ward',
   templateUrl: './ward.component.html'
@@ -29,6 +29,7 @@ export class WardComponent implements OnInit, OnDestroy {
   searchCriteria: any;
   wardList?: IWard[];
   bedList?: IBed[] = [];
+  COUNTER = 0;
 
   constructor(
     protected wardService: WardService,
@@ -41,6 +42,7 @@ export class WardComponent implements OnInit, OnDestroy {
     this.searchCriteria = {
       searchWardName: ''
     };
+    
   }
 
   protected loadBeds(): void {
@@ -69,21 +71,6 @@ export class WardComponent implements OnInit, OnDestroy {
         .subscribe(
           (res: HttpResponse<IWard[]>) => {
             this.onSuccess(res.body, res.headers, pageToLoad);
-            console.log('inside loadpage');
-            console.log(this.wards);
-            console.log(this.bedList);
-            // refactor later on
-            // got bug with this. might double load 
-            for (let i = 0; i < this.wards!.length; i++) {
-              this.wards![i].noOfBeds = 0;
-              for (let j = 0; j < this.bedList!.length; j++) {
-                if (this.wards![i].id === this.bedList![j].wardId) {
-                  this.wards![i].beds?.push(this.bedList![j]); 
-                  this.wards![i].noOfBeds = this.wards![i].noOfBeds! + 1;
-                }
-              }
-            }
-            console.log(this.wards);
           },
           () => this.onError()
         );
@@ -102,19 +89,6 @@ export class WardComponent implements OnInit, OnDestroy {
       }
   }
 
-  // private setBedcount(wardCopy: IWard[], bedCopy: IBed[]): void {
-    
-  //   for (let i = 0; i < this.wards!.length; i++) {
-  //     this.wards![i].noOfBeds = 0;
-  //     for (let j = 0; j < this.bedList!.length; j++) {
-  //       if (this.wards![i].id === this.bedList![j].wardId) {
-  //         this.wards![i].beds?.push(this.bedList![j]); 
-  //         this.wards![i].noOfBeds = this.wards![i].noOfBeds! + 1;
-  //       }
-  //     }
-  //   }
-  // }
-
   ngOnInit(): void {
 
     this.activatedRoute.data.subscribe(() => {
@@ -130,8 +104,8 @@ export class WardComponent implements OnInit, OnDestroy {
       this.ngbPaginationPage = data.pagingParams.page;
       this.loadBeds();
       this.loadPage();
+
     });
-    
     this.registerChangeInWards();
   }
 
@@ -191,14 +165,57 @@ export class WardComponent implements OnInit, OnDestroy {
     });
     this.wards = data || [];
 
-    this.bedList
+    //   console.log('GREATER THAN 0');
+    //   let i = 0;
+    //   this.wards.forEach(x=> {
+    //   this.wards![i].beds = [];
+    //   this.wards![i].noOfBeds = 0;
+    //     this.bedList?.forEach(y => {
+    //       if (y.wardId === x.id) {
+    //         // this.wards![i].beds?.push(y);
+    //         if (this.COUNTER === 0) {
+    //           this.wards![i].beds?.push(y);
+    //         }
+    //       }
+    //     });
+    //     this.wards![i].noOfBeds = this.wards![i].beds?.length;
+    //     i++;
+    //   });
+    //   console.log(this.wards);
+    
+    // console.log('NOPE');
+    // this.COUNTER++;
 
-    let i = 0;
-    this.wards.forEach(() => {
-      this.wards![i].noOfBeds = this.wards![i].beds?.length;
-      i++;
+    this.wards?.forEach(x => {
+      x.beds = [];
+      if (x.beds.length === 0) {        
+        
+        this.bedList?.forEach(y => {
+          if (y.wardId === x.id) {
+            x.beds!.push(y);
+          }
+        });
+      }
+      x.noOfBeds = x.beds?.length;
     });
-    // console.log(this.wards);
+
+    // // console.log(this.wards);
+    // let i = 0;
+    // this.wards?.forEach(() => {
+    //   // this.wards![i].beds = [];
+    //   // this.wards![i].noOfBeds = 0;
+    //   this.bedList?.forEach(y => {
+    //     if (this.wards![i].id === y.wardId) {
+    //       if (typeof this.wards![i].beds === 'undefined') {
+    //         this.wards![i].beds?.push(y);
+    //         this.wards![i].noOfBeds!++;
+    //       }
+
+    //     }
+    //   });
+    //   i++;
+    // });
+
   }
 
   public onSearchSuccess(data: IWard[] | null, headers: HttpHeaders, page: number, searchQuery: string): void {
