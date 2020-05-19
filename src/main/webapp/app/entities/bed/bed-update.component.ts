@@ -106,15 +106,20 @@ export class BedUpdateComponent implements OnInit {
     });
     const emptyName = wName + '_' + this.editForm.get(['bedReferenceId'])!.value;
     const finalBed = this.finalForm(emptyName); 
-
+    // console.log(bed);
+    // console.log(finalBed);
+    // console.log(typeof bed.bedName);
+    // if (typeof bed.bedName === 'undefined') {
+    //   console.log('yes');
+    // }
     if (bed.id !== undefined) {
-      if (bed.bedName === '' || bed.bedName === null) {
+      if (bed.bedName === '') {
         this.subscribeToSaveResponse(this.bedService.update(finalBed));
       } else {
         this.subscribeToSaveResponse(this.bedService.update(bed));
       }
     } else {
-      if (bed.bedName === '' || bed.bedName === null) {
+      if (typeof bed.bedName === 'undefined') {
         this.subscribeToSaveResponse(this.bedService.create(finalBed));
       } else {
         this.subscribeToSaveResponse(this.bedService.create(bed));

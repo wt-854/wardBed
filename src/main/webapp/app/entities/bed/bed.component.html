@@ -58,7 +58,6 @@
                     <th scope="col"  jhiSortBy="wardId"><span jhiTranslate="wardBedApp.bed.wardName">Ward Name</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="bedReferenceId"><span jhiTranslate="wardBedApp.bed.bedReferenceId">Bed Reference Id</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="bedName"><span jhiTranslate="wardBedApp.bed.bedName">Bed Name</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="wardAllocationDate"><span jhiTranslate="wardBedApp.bed.wardAllocationDate">Ward Allocation Date</span> <fa-icon icon="sort"></fa-icon></th>                    
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -73,7 +72,6 @@
                     </td>
                     <td>{{ bed.bedReferenceId }}</td>
                     <td>{{ bed.bedName }}</td>
-                    <td>{{ bed.wardAllocationDate | date:'mediumDate' }}</td>
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit"

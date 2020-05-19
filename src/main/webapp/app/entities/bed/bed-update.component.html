@@ -6,11 +6,11 @@
 
             <div>
                 <jhi-alert-error></jhi-alert-error>
-
-                <div class="form-group" [hidden]="!editForm.get('id')!.value">
+            <br>
+                <!-- <div class="form-group" [hidden]="!editForm.get('id')!.value">
                     <label for="id" jhiTranslate="global.field.id">ID</label>
                     <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
-                </div>
+                </div> -->
 
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="wardBedApp.bed.bedReferenceId" for="field_bedReferenceId">Bed Reference Id</label>
@@ -110,7 +110,8 @@
                 <!-- [routerLink]="['/', 'bed', { outlets: { popup: '/new' } }]" replaceUrl="true" queryParamsHandling="merge" -->
                 <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary"
                 >
-                    <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.add">Add</span>
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span *ngIf="!editForm.get('id')?.value" jhiTranslate="entity.action.add">Add</span>
+                    <span *ngIf="editForm.get('id')?.value" jhiTranslate="entity.action.edit">Edit</span>
                 </button>
             </div>
         </form>
