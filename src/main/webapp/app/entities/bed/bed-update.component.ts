@@ -13,7 +13,8 @@ import { JhiAlertService } from 'ng-jhipster';
 import * as moment from 'moment';
 import { DATE_FORMAT_DDMMYYYY } from 'app/shared/constants/input.constants';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-/* eslint-disable no-console */
+import { BedAddDialogComponent } from './bed-add-dialog.component';
+
 @Component({
   selector: 'jhi-bed-update',
   templateUrl: './bed-update.component.html'
@@ -106,12 +107,6 @@ export class BedUpdateComponent implements OnInit {
     });
     const emptyName = wName + '_' + this.editForm.get(['bedReferenceId'])!.value;
     const finalBed = this.finalForm(emptyName); 
-    // console.log(bed);
-    // console.log(finalBed);
-    // console.log(typeof bed.bedName);
-    // if (typeof bed.bedName === 'undefined') {
-    //   console.log('yes');
-    // }
     if (bed.id !== undefined) {
       if (bed.bedName === '') {
         this.subscribeToSaveResponse(this.bedService.update(finalBed));
@@ -124,12 +119,12 @@ export class BedUpdateComponent implements OnInit {
       } else {
         this.subscribeToSaveResponse(this.bedService.create(bed));
       }
-      this.createAgain();
+      // this.createAgain();
     }
   }
 
-  private createAgain(): void {
-    this.router.navigate(['/bed/new']);
+  public createAgain(): void {
+    this.modalService.open(BedAddDialogComponent);
   }
 
   private finalForm(emptyName: string): IBed {

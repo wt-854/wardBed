@@ -118,9 +118,7 @@ export class WardUpdateComponent implements OnInit {
         this.wardList.push(x);
       });
     }
-    /* eslint-disable no-console */
-    console.log('check length');
-    console.log(this.wardList.length); 
+
   }
 
   protected loadWards(): void {

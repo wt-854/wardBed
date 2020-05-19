@@ -29,7 +29,6 @@ export class BedComponent implements OnInit, OnDestroy {
   wardList: IWard[] = [];
   singleWard: IWard = {};
 
-/* eslint-disable no-console */
   constructor(
     protected bedService: BedService,
     protected activatedRoute: ActivatedRoute,
@@ -81,7 +80,6 @@ export class BedComponent implements OnInit, OnDestroy {
       .subscribe(
         (res: HttpResponse<IBed[]>) => {
           this.onSearchSuccess(res.body, res.headers, pageToLoad);
-            // console.log(res.body);
         },
         () => this.onError()
       );
@@ -154,8 +152,6 @@ export class BedComponent implements OnInit, OnDestroy {
       }
     });
     this.beds = data || [];
-    console.log('normal');
-    console.log(this.beds);
     this.beds.forEach(x => {
       this.wardList.forEach(y => {
         if (y.id === x.wardId) {
@@ -176,8 +172,6 @@ export class BedComponent implements OnInit, OnDestroy {
       }
     });
     this.beds = data || [];
-    console.log('here');
-    console.log(data);
     this.beds.forEach(x => {
 
       // extract the ward details

@@ -5,8 +5,9 @@ import { JhiEventManager } from 'ng-jhipster';
 
 import { IBed } from 'app/shared/model/bed.model';
 import { BedService } from './bed.service';
-
+/* eslint-disable no-console */
 @Component({
+  selector: 'jhi-bed-add-dialog',
   templateUrl: './bed-add-dialog.component.html'
 })
 export class BedAddDialogComponent {
@@ -40,7 +41,8 @@ export class BedAddDialogComponent {
 }
 
 @Component({
-  template: ''
+  selector: 'jhi-bed-add-popup',
+  template: './bed-add-dialog.component.html'
 })
 export class BedAddPopupComponent implements OnInit, OnDestroy {
   
@@ -52,6 +54,7 @@ export class BedAddPopupComponent implements OnInit, OnDestroy {
     ) {}
 
   ngOnInit(): void {
+      console.log('did this initialise');
     this.activatedRoute.data.subscribe(({ bed }) => {
       setTimeout(() => {
         this.ngbModalRef = this.modalService.open(BedAddDialogComponent as Component, 

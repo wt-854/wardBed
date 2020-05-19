@@ -33,7 +33,6 @@ export class WardDeleteDialogComponent implements OnInit {
   protected getBeds(data: IBed[]): void {
     data.forEach(x => {
      this.bedList?.push(x);
-     console.log(x);
     });
   }
 
@@ -45,12 +44,8 @@ export class WardDeleteDialogComponent implements OnInit {
   // do check inside confirmDelete
 
   confirmDelete(id: number): void {
-    console.log('inside delete');
-    console.log(this.bedList);
     this.bedList.forEach(x => {
-      console.log('inside bedlist foreach');
       if (x.wardId === id) {
-        console.log('there is a match');
         this.bedService.delete(x.id!).subscribe(() => {
           this.eventManager.broadcast('bedListMonification');
         });
