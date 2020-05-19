@@ -10,9 +10,10 @@
         "editLabel": "Edit Bed",
         "addLabel": "Add Bed",
         "deleteLabel": "Delete Bed",
-        "manageLabel": "Manage Bed"
+        "manageLabel": "Manage Bed",
+        "pleaseAdd": "Please add a bed"
       },
-      "created": "A new Bed is created with identifier {{ param }}",
+      "created": "Bed details added successfully",
       "updated": "Bed details updated successfully",
       "deleted": "Bed deleted successfully",
       "delete": {

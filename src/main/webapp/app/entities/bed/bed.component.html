@@ -2,7 +2,8 @@
     <h2 id="page-heading">
         <span jhiTranslate="wardBedApp.bed.home.title">Beds</span>
 
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-bed" [routerLink]="['/bed/new']">
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-bed" 
+        [routerLink]="['/bed/new']" [disabled]="wardList?.length == 0">
             <fa-icon icon="plus"></fa-icon>
             <span  jhiTranslate="wardBedApp.bed.home.addLabel">
             Add Bed
@@ -14,11 +15,12 @@
 
     <jhi-alert></jhi-alert>
 
+    <br>
     <div class="alert alert-warning" id="no-result" *ngIf="beds?.length === 0">
-        <span jhiTranslate="wardBedApp.bed.home.notFound">No beds found</span>
+        <span jhiTranslate="wardBedApp.bed.home.pleaseAdd">Please add a bed</span>
     </div>
 
-    <div class="row">
+    <div class="row" *ngIf="beds?.length > 0">
         <form name="searchForm" class="col-sm-12">
             <div class="card">
                 <div class="card-header"><span>Search Criteria</span></div>
@@ -44,9 +46,9 @@
     <br>
 
     <!-- 2 div tags taken-->
-    <div class="card">
-        <div class="card-header"><span>Search Result</span></div>
-        <div class="class card-block" style="padding:1.5% 1.5% 0 1.5%">
+<div class="card" *ngIf="beds?.length > 0">
+    <div class="card-header"><span>Search Result</span></div>
+    <div class="class card-block" style="padding:1.5% 1.5% 0 1.5%">
 
     <div class="table-responsive" id="entities" *ngIf="beds?.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
