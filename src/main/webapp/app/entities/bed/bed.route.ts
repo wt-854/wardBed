@@ -90,7 +90,7 @@ export const bedRoute: Routes = [
 
 export const addBedPopupRoute: Routes = [
   {
-    path: ':id/new',
+    path: 'addAgain',
     component: BedAddPopupComponent,
     resolve: {
       bed: BedResolve
