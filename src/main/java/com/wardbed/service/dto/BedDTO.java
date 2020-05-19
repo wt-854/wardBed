@@ -17,7 +17,6 @@ public class BedDTO implements Serializable {
     @Pattern(regexp = "^BED_(0[1-9]|10)$")
     private String bedReferenceId;
 
-    @NotNull
     @Size(max = 17)
     private String bedName;
 

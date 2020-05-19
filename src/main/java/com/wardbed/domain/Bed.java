@@ -31,7 +31,6 @@ public class Bed implements Serializable {
     @Column(name = "bed_reference_id", length = 6, nullable = false, unique = true)
     private String bedReferenceId;
 
-    @NotNull
     @Size(max = 17)
     @Column(name = "bed_name", length = 17, nullable = false)
     private String bedName;
