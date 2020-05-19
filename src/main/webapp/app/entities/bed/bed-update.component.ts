@@ -13,7 +13,7 @@ import { JhiAlertService } from 'ng-jhipster';
 import * as moment from 'moment';
 import { DATE_FORMAT_DDMMYYYY } from 'app/shared/constants/input.constants';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
+/* eslint-disable no-console */
 @Component({
   selector: 'jhi-bed-update',
   templateUrl: './bed-update.component.html'
@@ -42,7 +42,7 @@ export class BedUpdateComponent implements OnInit {
     ],
     bedName: [null, [Validators.maxLength(17), this.uniqueBedNameValidator()]],
     wardAllocationDate: [null, [Validators.required, this.dateValidator()]],
-    wardId: []
+    wardId: [null, Validators.required]
   } // , { validator: dateNotBeforeTodayValidator}
   );
 
@@ -252,9 +252,15 @@ export class BedUpdateComponent implements OnInit {
       const compareDate = moment(control.value).format(DATE_FORMAT_DDMMYYYY);
       this.initialBed =  this.initialForm;
       let oldDate = ''; 
+      let random = '';
       if (typeof this.initialBed === 'undefined') {
         oldDate = '';
       } else {
+        random = this.editForm.get(['wardAllocationDate'])!.value;
+        if (typeof random === 'string') {
+          return { dateFormatMismatch: true };
+        }
+         
         oldDate = moment(this.initialBed.wardAllocationDate).format(DATE_FORMAT_DDMMYYYY);
         if (compareDate === oldDate) {
           return null;

@@ -58,6 +58,21 @@
                 </div>
 
                 <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="wardBedApp.bed.wardName" for="field_ward">Ward Name</label>
+                    <select class="form-control" id="field_ward" name="ward" formControlName="wardId">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="wardOption.id" *ngFor="let wardOption of sortedWards; trackBy: trackRandom">{{ wardOption.wardName }}</option>
+                        <!-- <option [ngValue]="wardOption.id" *ngFor="let wardOption of wards; trackBy: trackById">{{ wardOption.wardName }}</option> -->
+                    </select>
+                    <div *ngIf="editForm.get('wardId')!.invalid && (editForm.get('wardId')!.dirty || editForm.get('wardId')!.touched)">
+                        <small class="form-text text-danger"
+                            *ngIf="editForm.get('wardId')?.errors?.required" jhiTranslate="entity.validation.required">
+                            This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
                     <label class="form-control-label" jhiTranslate="wardBedApp.bed.wardAllocationDate" for="field_wardAllocationDate">Ward Allocation Date</label>
                     <div class="input-group">
                         <input id="field_wardAllocationDate" type="text" class="form-control" name="wardAllocationDate" ngbDatepicker #wardAllocationDateDp="ngbDatepicker" formControlName="wardAllocationDate"/>
@@ -74,20 +89,16 @@
                                *ngIf="editForm.get('wardAllocationDate')?.errors?.dateMismatch">
                                 Ward Allocation Date cannot be before today.
                         </small>
+                        <small class="form-text text-danger" jhiTranslate="wardBedApp.bed.dateFormatMismatch"
+                               *ngIf="editForm.get('wardAllocationDate')?.errors?.dateFormatMismatch">
+                                Invalid date format.
+                        </small>
                     </div>
 
                     
 
                 </div>
 
-                <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="wardBedApp.bed.ward" for="field_ward">Ward</label>
-                    <select class="form-control" id="field_ward" name="ward" formControlName="wardId">
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="wardOption.id" *ngFor="let wardOption of sortedWards; trackBy: trackRandom">{{ wardOption.wardName }}</option>
-                        <!-- <option [ngValue]="wardOption.id" *ngFor="let wardOption of wards; trackBy: trackById">{{ wardOption.wardName }}</option> -->
-                    </select>
-                </div>
             </div>
 
             <div>
