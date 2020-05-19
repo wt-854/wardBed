@@ -110,7 +110,8 @@
       "value": "Value"
     },
     "delete": {
-      "title": "Confirm delete operation"
+      "title": "Confirm delete operation",
+      "wards": "All beds allocated to this ward will be deleted as well. Proceed to remove?"
     },
     "validation": {
       "required": "This field is required.",

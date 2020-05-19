@@ -13,7 +13,7 @@
       },
       "created": "Ward details added successfully",
       "updated": "A Ward is updated with identifier {{ param }}",
-      "deleted": "A Ward is deleted with identifier {{ param }}",
+      "deleted": "Ward deleted successfully",
       "delete": {
         "question": "Are you sure you want to delete Ward {{ id }}?"
       },
