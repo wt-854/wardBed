@@ -13,6 +13,8 @@ import { WardDeleteDialogComponent } from './ward-delete-dialog.component';
 import { BedService } from 'app/entities/bed/bed.service';
 import { IBed } from 'app/shared/model/bed.model';
 
+/* eslint-disable no-console */
+
 @Component({
   selector: 'jhi-ward',
   templateUrl: './ward.component.html'
@@ -56,9 +58,23 @@ export class WardComponent implements OnInit, OnDestroy {
     });
   }
 
+  getBedCount(data: IWard[]):void {
+    data.forEach(x => {
+      x.beds = [];
+      x.noOfBeds = 0;
+      
+      this.bedList?.forEach(y => {
+        if(y.wardId === x.id) {
+          x.beds?.push(y);
+        }
+      });
+      x.noOfBeds = x.beds.length;
+    });
+  }
+
   loadPage(page?: number): void {
     const pageToLoad: number = page || this.page;
-
+    
     if (this.searchCriteria.searchWardName === '' || 
       this.searchCriteria.searchWardName === null || 
       this.searchCriteria.searchWardName === 'undefined') {
@@ -87,16 +103,11 @@ export class WardComponent implements OnInit, OnDestroy {
               () => this.onError()
             );
       }
+
   }
 
   ngOnInit(): void {
-
-    this.activatedRoute.data.subscribe(() => {
-      this.wardService.query().subscribe((res: HttpResponse<IWard[]>) => {
-        (this.wardList = res.body || []);
-      });
-    });
-    
+  
     this.activatedRoute.data.subscribe(data => {
       this.page = data.pagingParams.page;
       this.ascending = data.pagingParams.ascending;
@@ -117,18 +128,23 @@ export class WardComponent implements OnInit, OnDestroy {
     this.searchCriteria = {
       searchWardName: ''
     };
-    this.page = 1;
-    this.router.navigate(['/ward', {
-        page: this.page,
-        sort: this.predicate + ',' + (this.ascending ? 'asc' : 'desc')
-    }]);
+
+    this.activatedRoute.data.subscribe(data => {
+      this.page = data.pagingParams.page;
+      this.ascending = data.pagingParams.ascending;
+      this.predicate = 'wardReferenceId';  // data.pagingParams.predicate;
+      this.ngbPaginationPage = data.pagingParams.page;
+
+    });
     this.loadPage();
+
   }
 
   ngOnDestroy(): void {
     if (this.eventSubscriber) {
       this.eventManager.destroy(this.eventSubscriber);
     }
+
   }
 
   trackId(index: number, item: IWard): number {
@@ -154,6 +170,7 @@ export class WardComponent implements OnInit, OnDestroy {
   }
 
   protected onSuccess(data: IWard[] | null, headers: HttpHeaders, page: number): void {
+
     this.totalItems = Number(headers.get('X-Total-Count'));
     this.page = page;
     this.router.navigate(['/ward'], {
@@ -164,81 +181,7 @@ export class WardComponent implements OnInit, OnDestroy {
       }
     });
     this.wards = data || [];
-
-    //   console.log('GREATER THAN 0');
-    //   let i = 0;
-    //   this.wards.forEach(x=> {
-    //   this.wards![i].beds = [];
-    //   this.wards![i].noOfBeds = 0;
-    //     this.bedList?.forEach(y => {
-    //       if (y.wardId === x.id) {
-    //         // this.wards![i].beds?.push(y);
-    //         if (this.COUNTER === 0) {
-    //           this.wards![i].beds?.push(y);
-    //         }
-    //       }
-    //     });
-    //     this.wards![i].noOfBeds = this.wards![i].beds?.length;
-    //     i++;
-    //   });
-    //   console.log(this.wards);
-    
-    // console.log('NOPE');
-    // this.COUNTER++;
-
-    this.wards?.forEach(x => {
-      x.beds = [];
-      if (x.beds.length === 0) {        
-        
-        this.bedList?.forEach(y => {
-          if (y.wardId === x.id) {
-            x.beds!.push(y);
-          }
-        });
-      }
-      x.noOfBeds = x.beds?.length;
-    });
-
-    // // console.log(this.wards);
-    // let i = 0;
-    // this.wards?.forEach(() => {
-    //   // this.wards![i].beds = [];
-    //   // this.wards![i].noOfBeds = 0;
-    //   this.bedList?.forEach(y => {
-    //     if (this.wards![i].id === y.wardId) {
-    //       if (typeof this.wards![i].beds === 'undefined') {
-    //         this.wards![i].beds?.push(y);
-    //         this.wards![i].noOfBeds!++;
-    //       }
-
-    //     }
-    //   });
-    //   i++;
-    // });
-
-  }
-
-  public onSearchSuccess(data: IWard[] | null, headers: HttpHeaders, page: number, searchQuery: string): void {
-    this.totalItems = Number(headers.get('X-Total-Count'));
-    this.page = page;
-    this.router.navigate(['/ward'], {
-      queryParams: {
-        page: this.page,
-        size: this.itemsPerPage,
-        sort: this.predicate + ',' + (this.ascending ? 'asc' : 'desc')
-      }
-    });
-    this.wards = []; // max is 10 anyway, doing this jus resets to 0
-
-    // JUST REALISED FRONTEND SEARCH WAS BASED ON WHICH PAGE IM ON
-    this.wardList?.forEach(x => {
-      if (x.wardName!.toString().toLocaleLowerCase().includes(searchQuery.toLocaleLowerCase())) {
-        this.wards?.push(x);
-      }
-    });
-
-    // this is to set the pages after search
-    this.totalItems = this.wards.length;
+    this.getBedCount(this.wards);
 
   }
 
