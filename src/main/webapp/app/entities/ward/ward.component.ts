@@ -13,8 +13,6 @@ import { WardDeleteDialogComponent } from './ward-delete-dialog.component';
 import { BedService } from 'app/entities/bed/bed.service';
 import { IBed } from 'app/shared/model/bed.model';
 
-/* eslint-disable no-console */
-
 @Component({
   selector: 'jhi-ward',
   templateUrl: './ward.component.html'
@@ -114,6 +112,13 @@ export class WardComponent implements OnInit, OnDestroy {
       this.predicate = 'wardReferenceId';  // data.pagingParams.predicate;
       this.ngbPaginationPage = data.pagingParams.page;
       this.loadBeds();
+      this.router.navigate(['/ward'], {
+        queryParams: {
+          page: this.page,
+          size: this.itemsPerPage,
+          sort: this.predicate + ',' + (this.ascending ? 'asc' : 'desc')
+        }
+      });
       this.loadPage();
 
     });
@@ -170,7 +175,8 @@ export class WardComponent implements OnInit, OnDestroy {
   }
 
   protected onSuccess(data: IWard[] | null, headers: HttpHeaders, page: number): void {
-
+    this.wards = data!;
+    this.getBedCount(this.wards);
     this.totalItems = Number(headers.get('X-Total-Count'));
     this.page = page;
     this.router.navigate(['/ward'], {
@@ -180,8 +186,6 @@ export class WardComponent implements OnInit, OnDestroy {
         sort: this.predicate + ',' + (this.ascending ? 'asc' : 'desc')
       }
     });
-    this.wards = data || [];
-    this.getBedCount(this.wards);
 
   }
 
