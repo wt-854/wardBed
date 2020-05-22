@@ -38,6 +38,8 @@
     "enableTranslation": true,
     "nativeLanguage": "en",
     "languages": ["en", "zh-cn"],
-    "blueprints": []
+    "blueprints": [],
+    "herokuAppName": "ward-bed",
+    "herokuDeployType": "git"
   }
 }
