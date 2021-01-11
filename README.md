@@ -1,9 +1,9 @@
 # wardBed
 
-This application was generated using JHipster 6.8.0, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v6.8.0](https://www.jhipster.tech/documentation-archive/v6.8.0).
+[Online Demo](https://ward-bed.herokuapp.com/). This application was generated using JHipster 6.8.0, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v6.8.0](https://www.jhipster.tech/documentation-archive/v6.8.0).
 
 ## About
-This is a web application that simulates a simple healthcare system for hospital staff. Demo [here](https://ward-bed.herokuapp.com/). 
+This is a web application that simulates a simple healthcare system for hospital staff.  
 
 ## Development
 
